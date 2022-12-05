@@ -1,13 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <!-- 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {}
+            },
+            plugins: [
+                require('@tailwindcss/forms'),
+                // ...
+            ],
+        }
+    </script> -->
+</head>
+
+<body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-  </body>
+</body>
+<!-- <script>
+    const btns = document.querySelectorAll(".accordion-btn");
+    const btnSvg = document.querySelectorAll("svg.arrow")
+    const btnP = document.querySelectorAll("button + div")
+
+    const nav = document.querySelector("nav")
+    const navBtn = document.querySelector(".navBtn")
+
+    const container = document.querySelector(`.acrd-list`)
+    const containerItem = document.querySelectorAll(".container-item")
+
+
+    const tooltipSvg = document.querySelectorAll("svg.toolTipEnable")
+    const tooltip = document.querySelectorAll("[data-span-hover]")
+
+
+
+    // selects flag icon (here we select to use our priorty changing toolip ) 
+    const priortyChangeToolTipSVGs = document.querySelectorAll("button > div:nth-child(4)")
+
+    priortyChangeToolTipSVGs.forEach(span => span.addEventListener("click", () => {
+        const tooltip = span.children[2];
+
+        tooltip.classList.remove("opacity-0")
+        tooltip.classList.remove("pointer-events-none")
+        tooltip.classList.add("opacity-1")
+        tooltip.classList.add("z-50")
+
+        // to add remove effect activate overlay
+        overlay.classList.remove("pointer-events-none")
+
+    }))
+
+
+    // modals
+    const openModalBtns = document.querySelectorAll("[data-modal-target]")
+    const closeModalBtns = document.querySelectorAll("[data-close-button]")
+    const overlay = document.querySelector("#overlay")
+
+    // close modal if we click outside of it
+    overlay.addEventListener("click", () => {
+        const modals = [...document.querySelectorAll(".modal")]
+        modals.forEach(modal => closeModal(modal))
+
+        // close priorty tooltip btn if it's opened
+        const toolTips = [...document.querySelectorAll("button > div:nth-child(4) > [data-span-priorty")]
+        const tooltip = toolTips.filter(span => span.className.includes("opacity-1"))
+
+        tooltip[0].classList.remove("opacity-1")
+        tooltip[0].classList.add("opacity-0")
+        tooltip[0].classList.add("pointer-events-none")
+    })
+
+    openModalBtns.forEach(button => button.addEventListener("click", () => {
+        const modal = document.querySelector(button.dataset.modalTarget)
+        openModal(modal);
+    }))
+
+    closeModalBtns.forEach(button => button.addEventListener("click", () => {
+        const modal = button.closest(".modal") //find closest button with class modal
+        closeModal(modal);
+    }))
+
+    const openModal = (modal) => {
+        modal.classList.remove("scale-0")
+        overlay.classList.remove("opacity-0")
+        overlay.classList.remove("pointer-events-none")
+    }
+
+    const closeModal = (modal) => {
+        modal.classList.add("scale-0")
+        overlay.classList.add("opacity-0")
+        overlay.classList.add("pointer-events-none")
+
+    }
+
+
+
+    tooltipSvg.forEach((svg, index) => svg.addEventListener("mouseover", () => {
+        tooltip[index].classList.remove("opacity-0")
+        tooltip[index].classList.add("opacity-1")
+    }))
+
+    tooltipSvg.forEach((svg, index) => svg.addEventListener("mouseout", () => {
+        tooltip[index].classList.remove("opacity-1")
+        tooltip[index].classList.add("opacity-0")
+
+    }))
+
+    // Create a condition that targets viewports less than 768px wide
+    const mediaQuery = window.matchMedia('(max-width: 768px)')
+
+    // Open nav if the app is being viewed in md screens
+    if (!mediaQuery.matches) {
+        nav.classList.add("translate-x-0")
+    }
+
+
+
+    function openNavDefault(e) {
+        // Check if the media query is true
+        if (e.matches) {
+            // Then log the following message to the console
+            nav.classList.add("translate-x-0")
+            document.body.classList.add("overflow-hidden")
+            container.classList.add("overflow-y-scroll")
+        } else { //if the media query isnt true that means we're in md screens
+            nav.classList.add("translate-x-0")
+        }
+    }
+
+    const makeAnim = () => {
+        setTimeout(() => {
+            container.classList.add("overflow-visible")
+            if (!mediaQuery.matches) {
+                // if we aren't in phone screens
+                container.classList.remove("overflow-y-scroll")
+            }
+            containerItem.forEach(item => item.classList.add("mleft-32"))
+        }, 500)
+    }
+    const stopAnim = () => {
+        setTimeout(() => {
+            container.classList.remove("overflow-visible")
+            container.classList.add("overflow-y-scroll")
+            containerItem.forEach(item => item.classList.remove("mleft-32"))
+        }, 500)
+    }
+
+    const openNav = () => {
+        // open it
+        // nav.classList.add("toggle")
+        // Register event listener
+        mediaQuery.addListener(openNavDefault)
+        // Initial check
+        openNavDefault(mediaQuery)
+        stopAnim();
+
+
+
+        // check if it's opened in md screens
+        // if it is close it
+
+    }
+
+    const closeNav = () => {
+        // nav.classList.remove("toggle")
+        nav.classList.remove("translate-x-0")
+        document.body.classList.remove("overflow-hidden")
+        makeAnim();
+    }
+
+
+    navBtn.addEventListener("click", () => {
+        // if the navbar is closed...
+        if (!nav.className.includes("translate-x-0")) {
+            openNav();
+        } else {
+            closeNav();
+        }
+
+    })
+
+
+    btns.forEach((btn, index) => btn.addEventListener("click", () => {
+
+        // If the accordion is closed
+        if (btnP[index].className.includes("h-0")) {
+            openAccordion(index);
+        } else {
+            closeAccordion(index);
+        }
+    }))
+
+    const openAccordion = (index) => {
+        btnP[index].classList.remove("h-0", "opacity-0", "py-0", "whitespace-nowrap", "overflow-hidden")
+        btnSvg[index].classList.add("rotate-180")
+    }
+    const closeAccordion = (index) => {
+        btnP[index].classList.add("h-0", "opacity-0", "py-0", "whitespace-nowrap", "overflow-hidden")
+        btnSvg[index].classList.remove("rotate-180")
+    }
+</script> -->
+
 </html>
