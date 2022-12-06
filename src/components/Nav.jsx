@@ -4,8 +4,6 @@ const Nav = () => {
     const svgClasses = element.children[1].children[1].classList;
     const customProjDiv = element.nextElementSibling;
 
-    console.log(customProjDiv);
-
     svgClasses.value.includes("-rotate-180")
       ? svgClasses.remove("-rotate-180")
       : svgClasses.add("-rotate-180");
@@ -90,7 +88,7 @@ const Nav = () => {
         className="relative my-5  flex cursor-pointer flex-wrap items-center pl-1  hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4"
       >
         <svg
-          className="w-8 text-slate-800/75"
+          className="pointer-events-none w-8 text-slate-800/75"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -104,10 +102,10 @@ const Nav = () => {
           />
         </svg>
 
-        <div className="flex">
-          <p className="text-lg text-slate-700 ">Projects</p>
+        <div className="flex pointer-events-none">
+          <p className="text-lg text-slate-700">Projects</p>
           <svg
-            className="absolute right-0 w-8 text-slate-800/75 transition-all"
+            className="pointer-events-none absolute right-0 w-8 text-slate-800/75 transition-all"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
