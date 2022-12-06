@@ -1,4 +1,20 @@
 const Nav = () => {
+  const handleChange = (e) => {
+    const element = e.target;
+    const svgClasses = element.children[1].children[1].classList;
+    const customProjDiv = element.nextElementSibling;
+
+    console.log(customProjDiv);
+
+    svgClasses.value.includes("-rotate-180")
+      ? svgClasses.remove("-rotate-180")
+      : svgClasses.add("-rotate-180");
+
+    customProjDiv.classList.value.includes("opacity-0")
+      ? customProjDiv.classList.remove("opacity-0", "-mt-5")
+      : customProjDiv.classList.add("opacity-0", "-mt-5");
+  };
+
   return (
     <nav className="grad absolute z-10 w-60 bg-[#E0E0E0] shadow-xl md:static md:col-span-1 md:h-auto md:w-auto">
       <div className="flex flex-col items-center justify-evenly pb-7 md:flex-row">
@@ -53,7 +69,7 @@ const Nav = () => {
         <p className="text-lg text-slate-700">Completed tasks</p>
       </div>
 
-      <div className="my-5   flex cursor-pointer flex-wrap items-center pl-1  hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4">
+      <div className="my-5  flex cursor-pointer flex-wrap items-center pl-1  hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4">
         <svg
           className="w-8 text-slate-800/75 "
           xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +85,10 @@ const Nav = () => {
         <p className="text-lg text-slate-700">Important tasks</p>
       </div>
 
-      <div className="relative my-5   flex cursor-pointer flex-wrap items-center pl-1  hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4">
+      <div
+        onClick={handleChange}
+        className="relative my-5  flex cursor-pointer flex-wrap items-center pl-1  hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4"
+      >
         <svg
           className="w-8 text-slate-800/75"
           xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +107,7 @@ const Nav = () => {
         <div className="flex">
           <p className="text-lg text-slate-700 ">Projects</p>
           <svg
-            className="absolute right-0 w-8 text-slate-800/75 transition-all hover:rotate-180"
+            className="absolute right-0 w-8 text-slate-800/75 transition-all"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -101,6 +120,33 @@ const Nav = () => {
               d="M4.5 15.75l7.5-7.5 7.5 7.5"
             />
           </svg>
+        </div>
+      </div>
+
+      <div className={`customProj transition-all -mt-5 opacity-0`}>
+        <div className=" mb-3 pl-7 flex gap-2 mx-auto cursor-pointer flex-wrap items-center hover:font-semibold w-52 lg:w-48 lg:mx-auto lg:gap-4">
+          <div className="w-3 h-3 rounded-full bg-slate-400 lg:translate-x-2"></div>
+          <p className="text-md text-slate-900">Custom Project</p>
+          {/* max length should be 15 characters  */}
+        </div>
+
+        <div className=" mb-3 pl-11 flex gap-2 mx-auto cursor-pointer flex-wrap items-center hover:font-semibold w-52 lg:w-48 lg:mx-auto lg:gap-4">
+          <svg
+            data-modal-target="#modalAddTask"
+            className="h-5 w-5 cursor-pointer text-zinc-900 lg:translate-x-2"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
+            />
+          </svg>
+          <p className="text-md text-slate-900">New Project</p>
         </div>
       </div>
     </nav>
