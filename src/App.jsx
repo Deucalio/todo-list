@@ -38,7 +38,13 @@ const initialData = [
 
 const App = () => {
   const [tasks, setTasks] = useState(initialData);
-  // setTasks(initialData);
+
+  const changePriorty = (priorty,id) => {
+    // const priorty = e.target.textContent
+    // console.log(e.target.parentElement.parentElement.parentElement)
+    console.log(priorty,id)
+    
+  }
 
   return (
     <div className="App">
@@ -49,7 +55,7 @@ const App = () => {
           <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
             Task List
           </p>
-          <DisplayTasks tasks={tasks} />
+          <DisplayTasks changePriorty={changePriorty} tasks={tasks} />
         </main>
       </section>
     </div>

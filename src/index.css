@@ -24,15 +24,6 @@ nav {
 }
 
 @layer base {
-  .active {
-    @apply -translate-x-96;
-  }
-
-  .closed {
-   @apply opacity-0 py-0 h-0
-  }
-}
-@layer base {
   @media (min-width: 768px) {
     .active {
       @apply -translate-x-0;
@@ -40,6 +31,24 @@ nav {
     .un {
       @apply -translate-x-96;
     }
+  }
+
+  .active {
+    @apply -translate-x-96;
+  }
+
+  .closed {
+   @apply opacity-0 py-0 h-0
+  }
+
+  .high{
+    
+  }
+  .medium{
+
+  }
+  .low{
+
   }
 }
 

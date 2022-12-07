@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 const DisplayTask = ({
+  changePriorty,
   title,
   description,
   dueDate,
@@ -10,7 +11,6 @@ const DisplayTask = ({
   isImportant,
   id,
 }) => {
-
   const [modalActive, setModalActive] = useState(false)
 
   const openAccordion = (e) => {
@@ -61,11 +61,7 @@ const DisplayTask = ({
     const flagIcon = e.target
     const priortyTooltip = flagIcon.parentElement.children[2]
     priortyTooltip.style.opacity = "1"
-    // priortyTooltip.style.display = "block"
     priortyTooltip.classList.remove("hidden")
-    console.log(priortyTooltip)
-
-
     setModalActive(true)
 
   }
@@ -82,9 +78,9 @@ const DisplayTask = ({
   return (
     <>
       <div className="container-item max-h-full w-full rounded-md border-2 border-l-[10px] border-violet-500/50 border-l-violet-500 bg-indigo-100 py-2 px-3 text-indigo-700 transition-all duration-[600ms] md:w-11/12">
-        <button className="flex w-full cursor-default flex-row items-center justify-between gap-1 rounded-sm px-3 py-1">
+        <button className="flex w-full cursor-default flex-row items-center justify-between gap-1  px-3 py-1">
           <input
-            className="inline rounded-sm border-2 border-black/25 focus:ring-0"
+            className="inline border-2 border-black/25 focus:ring-0"
             type="checkbox"
             id=""
             name=""
@@ -140,7 +136,7 @@ const DisplayTask = ({
           <div className="relative">
             <svg onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
-              className="toolTipEnable mr-3 w-10 p-2 cursor-pointer hover:bg-indigo-200"
+              className="toolTipEnable mr-3 w-10 p-2 rounded-md cursor-pointer hover:bg-indigo-200"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
@@ -178,7 +174,7 @@ const DisplayTask = ({
           <div className="relative">
             <svg onClick={showPriortyTooltip} onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
-              className="toolTipEnable w-7 cursor-pointer hover:bg-indigo-10 p-200"
+              className="toolTipEnable w-10 p-2 rounded-md cursor-pointer hover:bg-indigo-200"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
@@ -202,13 +198,13 @@ const DisplayTask = ({
               data-span-priorty
               className="hidden z-40 absolute top-0 -mt-2 -ml-20 flex h-fit w-24 -translate-x-8 -translate-y-3 flex-col gap-1 rounded-lg bg-[#3772FF] py-1 px-2 text-left text-base font-medium tracking-normal text-[#FFFFFF]  transition-all duration-150 ease-in-out after:absolute after:-right-11 after:bottom-2/3 after:h-0 after:w-0 after:-translate-x-5 after:translate-y-4 after:-rotate-90 after:border-[15px] after:border-transparent after:border-t-[#3772FF] after:content-['']"
             >
-              <p className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
+              <p onClick={(e) => changePriorty(e.target.textContent,id)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
                 Low
               </p>
-              <p className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
+              <p onClick={(e) => changePriorty(e.target.textContent,id)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
                 Medium
               </p>
-              <p className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
+              <p onClick={(e) => changePriorty(e.target.textContent,id)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
                 High
               </p>
             </span>
@@ -228,17 +224,20 @@ const DisplayTask = ({
 
 const DisplayTasks = (props) => {
   const tasks = props.tasks;
+  const changePriorty = props.changePriorty
 
   const [propsTasks, setPropsTasks] = useState(tasks);
   console.log(tasks);
 
   return (
     <>
-      {tasks.map((t) => (
+      {tasks.map((t,i) => (
         <DisplayTask
+        changePriorty={changePriorty}
           title={t.title}
           description={t.description}
           dueDate={t.dueDate}
+          id={t.id}
         />
       ))}
     
