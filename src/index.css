@@ -10,16 +10,6 @@ body {
   height: calc(100vh - 3.5rem);
 }
 
-.toggle {
-  transform: translateX(0);
-}
-
-@media (min-width: 768px) {
-  .toggle {
-    transform: translateX(-300px);
-  }
-}
-
 nav {
   transition: transform 0.6s ease;
   /* transform: translateX(-300px); */
@@ -33,10 +23,37 @@ nav {
   transition: margin 0.6s ease;
 }
 
+@layer base {
+  .active {
+    @apply -translate-x-96;
+  }
+
+  .closed {
+   @apply opacity-0 py-0 h-0
+  }
+}
+@layer base {
+  @media (min-width: 768px) {
+    .active {
+      @apply -translate-x-0;
+    }
+    .un {
+      @apply -translate-x-96;
+    }
+  }
+}
+
 @media (min-width: 786px) {
   .mleft-32 {
     margin-left: -6rem !important;
   }
+  /* .active{
+    transform: translateX(-0.1rem);
+  }
+  .un{
+  transform: translateX(-15rem);
+
+  } */
 }
 
 /* width */

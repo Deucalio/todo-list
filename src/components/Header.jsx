@@ -1,18 +1,22 @@
 const Header = () => {
+  let x = window.matchMedia("(min-width: 768px)");
+
   const handleNav = (e) => {
     const svg = e.target;
     const nav = svg.parentElement.nextElementSibling.children[0];
-    let x = window.matchMedia("(min-width: 768px)");
 
     if (x.matches) {
-      console.log("match", nav);
-      nav.classList.value.includes("md:-translate-x-0")
-        ? nav.classList.remove("md:-translate-x-0")
-        : nav.classList.add("md:-translate-x-0");
+      if (nav.classList.value.includes("active")) {
+        nav.classList.remove("active");
+        nav.classList.add("un");
+      } else {
+        nav.classList.remove("un");
+        nav.classList.add("active");
+      }
     } else {
-      nav.classList.value.includes("-translate-x-96")
-        ? nav.classList.remove("-translate-x-96")
-        : nav.classList.add("-translate-x-96");
+      nav.classList.value.includes("active")
+        ? nav.classList.remove("active")
+        : nav.classList.add("active");
     }
   };
 
