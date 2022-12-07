@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import AddTaskPopup from "./AddTaskPopup"
 
 const DisplayTask = ({
   changePriorty,
@@ -77,10 +78,10 @@ const DisplayTask = ({
 
   return (
     <>
-      <div className="container-item max-h-full w-full rounded-md border-2 border-l-[10px] border-violet-500/50 border-l-violet-500 bg-indigo-100 py-2 px-3 text-indigo-700 transition-all duration-[600ms] md:w-11/12">
-        <button className="flex w-full cursor-default flex-row items-center justify-between gap-1  px-3 py-1">
+      <div className={`container-item max-h-full w-full rounded-md border-2 border-l-[10px]  ${priorty}  bg-indigo-100 py-2 px-3  transition-all duration-[600ms] md:w-11/12`}>
+        <button className="flex w-full cursor-default flex-row items-center justify-between sm:gap-1  sm:px-3 py-1">
           <input
-            className="inline border-2 border-black/25 focus:ring-0"
+            className="inline border-2 border-black focus:ring-0 h-5 w-5"
             type="checkbox"
             id=""
             name=""
@@ -90,7 +91,7 @@ const DisplayTask = ({
             onClick={openAccordion}
             className=" accordion-btn mr-2 flex w-full cursor-pointer flex-wrap justify-between border-4"
           >
-            <p className="pointer-events-none mt-[2px] max-h-full w-fit cursor-pointer text-left text-lg transition-all md:text-xl">
+            <p className="pointer-events-none mt-[2px] max-h-full w-fit cursor-pointer text-left text-md sm:text-lg transition-all md:text-xl">
               {title}
             </p>
 
@@ -113,7 +114,7 @@ const DisplayTask = ({
           <div className="relative">
             <svg onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
-              className="toolTipEnable mr-3 w-10 p-2 rounded-md cursor-pointer hover:bg-indigo-200"
+              className="toolTipEnable mr-3 w-5 sm:w-10 sm:p-2 rounded-md cursor-pointer hover:bg-indigo-200"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
@@ -136,7 +137,7 @@ const DisplayTask = ({
           <div className="relative">
             <svg onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
-              className="toolTipEnable mr-3 w-10 p-2 rounded-md cursor-pointer hover:bg-indigo-200"
+              className="toolTipEnable mr-3 w-5 sm:w-10 sm:p-2 rounded-md cursor-pointer hover:bg-indigo-200"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
@@ -196,7 +197,7 @@ const DisplayTask = ({
             <span
             style={{opacity: "0"}}
               data-span-priorty
-              className="hidden z-40 absolute top-0 -mt-2 -ml-20 flex h-fit w-24 -translate-x-8 -translate-y-3 flex-col gap-1 rounded-lg bg-[#3772FF] py-1 px-2 text-left text-base font-medium tracking-normal text-[#FFFFFF]  transition-all duration-150 ease-in-out after:absolute after:-right-11 after:bottom-2/3 after:h-0 after:w-0 after:-translate-x-5 after:translate-y-4 after:-rotate-90 after:border-[15px] after:border-transparent after:border-t-[#3772FF] after:content-['']"
+              className="hidden z-10 absolute top-0 -mt-2 -ml-20 flex h-fit w-24 -translate-x-8 -translate-y-3 flex-col gap-1 rounded-lg bg-[#3772FF] py-1 px-2 text-left text-base font-medium tracking-normal text-[#FFFFFF]  transition-all duration-150 ease-in-out after:absolute after:-right-11 after:bottom-2/3 after:h-0 after:w-0 after:-translate-x-5 after:translate-y-4 after:-rotate-90 after:border-[15px] after:border-transparent after:border-t-[#3772FF] after:content-['']"
             >
               <p onClick={(e) => changePriorty(e.target.textContent,id)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
                 Low
@@ -211,7 +212,7 @@ const DisplayTask = ({
           </div>
         </button>
 
-        <div className="transition-all ease-in-out duration-300 overflow-hidden whitespace-nowrap rounded-md border-x-2 border-b-2 border-violet-500/40 bg-slate-50 px-4  text-base text-blue-600 shadow-xl  md:text-lg closed">
+        <div className="transition-all ease-in-out duration-300 overflow-hidden whitespace-nowrap rounded-md border-x-2 border-b-2 border-violet-500/40 bg-slate-50 px-4  text-base  shadow-xl  md:text-lg closed">
           <p>{description}</p>
           <p className="font-semibold tracking-tighter">Due Date: {dueDate}</p>
         </div>
@@ -237,10 +238,10 @@ const DisplayTasks = (props) => {
           title={t.title}
           description={t.description}
           dueDate={t.dueDate}
+          priorty={t.priorty}
           id={t.id}
         />
       ))}
-    
     </>
   );
 };

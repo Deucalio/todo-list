@@ -1,5 +1,9 @@
-const Header = () => {
+import {useEffect, useState} from "react"
+
+const Header = ({setOverlay}) => {
   let x = window.matchMedia("(min-width: 768px)");
+
+
 
   const handleNav = (e) => {
     const svg = e.target;
@@ -20,7 +24,10 @@ const Header = () => {
     }
   };
 
+
+
   return (
+    <>
     <header className="h-14 flex flex-wrap items-center justify-between bg-[#3772FF]/90 py-2 px-3 md:px-24">
       <svg
         onClick={handleNav}
@@ -39,6 +46,7 @@ const Header = () => {
       </svg>
 
       <svg
+      onClick={setOverlay}
         data-modal-target="#modalAddTask"
         className="h-9 w-9 cursor-pointer text-[#E9F1F7] hover:bg-slate-400/30"
         xmlns="http://www.w3.org/2000/svg"
@@ -54,6 +62,7 @@ const Header = () => {
         />
       </svg>
     </header>
+    </>
   );
 };
 export default Header;

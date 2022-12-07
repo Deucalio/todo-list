@@ -2,6 +2,8 @@ import Header from "./components/Header";
 import Nav from "./components/Nav";
 import { useEffect, useState } from "react";
 import DisplayTasks from "./components/DisplayTasks";
+import AddTaskPopup from "./components/AddTaskPopup"
+
 
 const initialData = [
   {
@@ -39,24 +41,43 @@ const initialData = [
 const App = () => {
   const [tasks, setTasks] = useState(initialData);
 
-  const changePriorty = (priorty,id) => {
+  const [overlayActive, setOverlayActive] = useState(false)
+
+
+  const changePriorty = (newPriorty,id) => {
     // const priorty = e.target.textContent
     // console.log(e.target.parentElement.parentElement.parentElement)
-    console.log(priorty,id)
+    console.log(newPriorty,id)
+
+    const newList = tasks.map(t => {
+      if (t.id === id){
+        return {...t, priorty: newPriorty}
+      }else{
+        return t
+      }
+    })
+    setTasks(newList)
     
+
+  }
+
+  const setOverlay = () => {
+    setOverlayActive(!overlayActive)
   }
 
   return (
     <div className="App">
-      <Header />
+      <Header setOverlay={setOverlay} />
       <section className="grid grid-cols-5 grad">
-        <Nav />
+        <Nav setOverlay={setOverlay} />
         <main className="acrd-list overflow-y-scroll mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-3 w-full h-auto">
           <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
             Task List
           </p>
           <DisplayTasks changePriorty={changePriorty} tasks={tasks} />
         </main>
+        {overlayActive && <AddTaskPopup/>}
+        {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
       </section>
     </div>
   );

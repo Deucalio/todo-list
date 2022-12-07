@@ -1,4 +1,4 @@
-const Nav = () => {
+const Nav = ({setOverlay}) => {
   const handleChange = (e) => {
     const element = e.target;
     const svgClasses = element.children[1].children[1].classList;
@@ -15,7 +15,7 @@ const Nav = () => {
   };
 
   return (
-    <nav className="grad absolute z-10 w-60 bg-[#E0E0E0] shadow-xl md:static md:col-span-1 md:h-auto md:w-auto active">
+    <nav onClick={setOverlay} className="grad absolute z-20 w-60 bg-[#E0E0E0] shadow-xl md:static md:col-span-1 md:h-auto md:w-auto active">
       <div className="flex flex-col items-center justify-evenly pb-7 md:flex-row">
         <p className="px-2 py-2 text-left text-4xl tracking-normal text-slate-600">
           To-Do
