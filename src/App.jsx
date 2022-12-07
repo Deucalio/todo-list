@@ -45,9 +45,6 @@ const App = () => {
 
 
   const changePriorty = (newPriorty,id) => {
-    // const priorty = e.target.textContent
-    // console.log(e.target.parentElement.parentElement.parentElement)
-    console.log(newPriorty,id)
 
     const newList = tasks.map(t => {
       if (t.id === id){
@@ -69,14 +66,14 @@ const App = () => {
     <div className="App">
       <Header setOverlay={setOverlay} />
       <section className="grid grid-cols-5 grad">
-        <Nav setOverlay={setOverlay} />
+        <Nav setOverlay={() => setOverlayActive(false)} />
         <main className="acrd-list overflow-y-scroll mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-3 w-full h-auto">
           <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
             Task List
           </p>
           <DisplayTasks changePriorty={changePriorty} tasks={tasks} />
         </main>
-        {overlayActive && <AddTaskPopup/>}
+        {overlayActive && <AddTaskPopup closePopup={() => setOverlayActive(false)}/>}
         {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
       </section>
     </div>

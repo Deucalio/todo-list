@@ -197,7 +197,7 @@ const DisplayTask = ({
             <span
             style={{opacity: "0"}}
               data-span-priorty
-              className="hidden z-10 absolute top-0 -mt-2 -ml-20 flex h-fit w-24 -translate-x-8 -translate-y-3 flex-col gap-1 rounded-lg bg-[#3772FF] py-1 px-2 text-left text-base font-medium tracking-normal text-[#FFFFFF]  transition-all duration-150 ease-in-out after:absolute after:-right-11 after:bottom-2/3 after:h-0 after:w-0 after:-translate-x-5 after:translate-y-4 after:-rotate-90 after:border-[15px] after:border-transparent after:border-t-[#3772FF] after:content-['']"
+              className="hidden z-50 absolute top-0 -mt-2 -ml-20 flex h-fit w-24 -translate-x-8 -translate-y-3 flex-col gap-1 rounded-lg bg-[#3772FF] py-1 px-2 text-left text-base font-medium tracking-normal text-[#FFFFFF]  transition-all duration-150 ease-in-out after:absolute after:-right-11 after:bottom-2/3 after:h-0 after:w-0 after:-translate-x-5 after:translate-y-4 after:-rotate-90 after:border-[15px] after:border-transparent after:border-t-[#3772FF] after:content-['']"
             >
               <p onClick={(e) => changePriorty(e.target.textContent,id)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
                 Low
@@ -217,7 +217,7 @@ const DisplayTask = ({
           <p className="font-semibold tracking-tighter">Due Date: {dueDate}</p>
         </div>
       </div>
-      {modalActive && <div onClick={hidePriortyTooltip} className="fixed top-0 bottom-0 left-0 right-0 z-30" id="overlay"></div>}
+      {modalActive && <div onClick={hidePriortyTooltip} className="fixed top-0 bottom-0 left-0 right-0 z-10" id="overlay"></div>}
 
     </>
   );
@@ -234,6 +234,7 @@ const DisplayTasks = (props) => {
     <>
       {tasks.map((t,i) => (
         <DisplayTask
+        key={t.id}
         changePriorty={changePriorty}
           title={t.title}
           description={t.description}
