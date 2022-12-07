@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const DisplayTask = ({
   title,
@@ -10,20 +10,26 @@ const DisplayTask = ({
   isImportant,
   id,
 }) => {
+
+  const [modalActive, setModalActive] = useState(false)
+
   const openAccordion = (e) => {
     const clickedAccordion = e.target;
 
     const descriptionDiv =
       clickedAccordion.parentElement.parentElement.children[1];
 
+    const svgArrow = clickedAccordion.children[1];
+
     const addStyles = () => {
-      descriptionDiv.style.padding = "0rem 0.5rem";
+      descriptionDiv.style.padding = "1rem 0.5rem";
       descriptionDiv.style.opacity = "1";
       descriptionDiv.style.height = `${8}rem`;
       descriptionDiv.classList.remove("overflow-hidden", "whitespace-nowrap");
       descriptionDiv.classList.add("overflow-y-scroll");
 
       descriptionDiv.classList.remove("closed");
+      svgArrow.classList.add("-rotate-180");
     };
     const removeStyles = () => {
       descriptionDiv.style.padding = "";
@@ -33,12 +39,45 @@ const DisplayTask = ({
       descriptionDiv.classList.remove("overflow-y-scroll");
 
       descriptionDiv.classList.add("closed");
+      svgArrow.classList.remove("-rotate-180");
     };
 
     descriptionDiv.classList.value.includes("closed")
       ? addStyles()
       : removeStyles();
   };
+
+  const displayTooltip = (e) => {
+    const icon = e.target.nextElementSibling
+    icon.style.opacity = "1"
+  }
+
+  const hideTooltip = (e) => {
+    const icon = e.target.nextElementSibling
+    icon.style.opacity = "0"
+  }
+
+  const showPriortyTooltip = (e) => {
+    const flagIcon = e.target
+    const priortyTooltip = flagIcon.parentElement.children[2]
+    priortyTooltip.style.opacity = "1"
+    // priortyTooltip.style.display = "block"
+    priortyTooltip.classList.remove("hidden")
+    console.log(priortyTooltip)
+
+
+    setModalActive(true)
+
+  }
+
+  const hidePriortyTooltip = (e) => {
+    const overlay = e.target
+    const priortyTooltip = overlay.previousElementSibling.children[0].children[4].children[2]
+    
+    setModalActive(false)
+    priortyTooltip.style.opacity = "0"
+    priortyTooltip.classList.add("hidden")
+  }
 
   return (
     <>
@@ -76,9 +115,9 @@ const DisplayTask = ({
           </div>
 
           <div className="relative">
-            <svg
+            <svg onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
-              className="toolTipEnable mr-3 w-7 cursor-pointer hover:bg-indigo-200"
+              className="toolTipEnable mr-3 w-10 p-2 rounded-md cursor-pointer hover:bg-indigo-200"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
@@ -91,18 +130,17 @@ const DisplayTask = ({
               />
             </svg>
 
-            <span
-              data-span-hover
-              className="absolute top-0 -m-8 h-fit w-fit -translate-x-0 -translate-y-3 rounded-lg bg-violet-600 px-2 py-1 text-sm font-bold text-[#FFFFFF] opacity-0 transition-all duration-150 ease-in-out after:absolute after:left-1/2 after:bottom-0 after:h-0 after:w-0 after:-translate-x-4 after:translate-y-6 after:border-[15px] after:border-transparent after:border-t-violet-600 after:content-['']"
+            <span style={{opacity: "0"}}
+              className="absolute top-0 -m-8 h-fit w-fit -translate-x-0 -translate-y-3 rounded-lg bg-violet-600 px-2 py-1 text-sm font-bold text-[#FFFFFF]  transition-all duration-150 ease-in-out after:absolute after:left-1/2 after:bottom-0 after:h-0 after:w-0 after:-translate-x-4 after:translate-y-6 after:border-[15px] after:border-transparent after:border-t-violet-600 after:content-['']"
             >
               Edit
             </span>
           </div>
 
           <div className="relative">
-            <svg
+            <svg onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
-              className="toolTipEnable mr-3 w-7 cursor-pointer hover:bg-indigo-200"
+              className="toolTipEnable mr-3 w-10 p-2 cursor-pointer hover:bg-indigo-200"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
@@ -115,7 +153,7 @@ const DisplayTask = ({
               />
             </svg>
 
-            <span
+            <span style={{opacity: "0"}}
               data-span-hover
               className="absolute top-0 -m-8 h-fit w-fit -translate-x-2 -translate-y-3 rounded-lg bg-violet-600 px-2 py-1 text-sm font-bold text-[#FFFFFF] opacity-0 transition-all duration-150 ease-in-out after:absolute after:left-1/2 after:bottom-0 after:h-0 after:w-0 after:-translate-x-4 after:translate-y-6 after:border-[15px] after:border-transparent after:border-t-violet-600 after:content-['']"
             >
@@ -138,9 +176,9 @@ const DisplayTask = ({
           </div>
 
           <div className="relative">
-            <svg
+            <svg onClick={showPriortyTooltip} onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
-              className="toolTipEnable w-7 cursor-pointer hover:bg-indigo-200"
+              className="toolTipEnable w-7 cursor-pointer hover:bg-indigo-10 p-200"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
@@ -152,16 +190,17 @@ const DisplayTask = ({
                 d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
               />
             </svg>
-            <span
-              data-span-hover
+            <span 
+              data-span-hover style={{opacity: "0"}}
               className="absolute top-0 -m-8 h-fit w-32 -translate-x-8 -translate-y-3 rounded-lg bg-violet-600 px-2 py-1 text-sm font-bold text-[#FFFFFF] opacity-0 transition-all duration-150 ease-in-out after:absolute after:left-1/2 after:bottom-0 after:h-0 after:w-0 after:-translate-x-4 after:translate-y-6 after:border-[15px] after:border-transparent after:border-t-violet-600 after:content-['']"
             >
               Change priorty
             </span>
 
             <span
+            style={{opacity: "0"}}
               data-span-priorty
-              className="pointer-events-none absolute top-0 -mt-2 -ml-20 flex h-fit w-24 -translate-x-8 -translate-y-3 flex-col gap-1 rounded-lg bg-[#3772FF] py-1 px-2 text-left text-base font-medium tracking-normal text-[#FFFFFF] opacity-0 transition-all duration-150 ease-in-out after:absolute after:-right-11 after:bottom-2/3 after:h-0 after:w-0 after:-translate-x-5 after:translate-y-4 after:-rotate-90 after:border-[15px] after:border-transparent after:border-t-[#3772FF] after:content-['']"
+              className="hidden z-40 absolute top-0 -mt-2 -ml-20 flex h-fit w-24 -translate-x-8 -translate-y-3 flex-col gap-1 rounded-lg bg-[#3772FF] py-1 px-2 text-left text-base font-medium tracking-normal text-[#FFFFFF]  transition-all duration-150 ease-in-out after:absolute after:-right-11 after:bottom-2/3 after:h-0 after:w-0 after:-translate-x-5 after:translate-y-4 after:-rotate-90 after:border-[15px] after:border-transparent after:border-t-[#3772FF] after:content-['']"
             >
               <p className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
                 Low
@@ -181,6 +220,8 @@ const DisplayTask = ({
           <p className="font-semibold tracking-tighter">Due Date: {dueDate}</p>
         </div>
       </div>
+      {modalActive && <div onClick={hidePriortyTooltip} className="fixed top-0 bottom-0 left-0 right-0 z-30" id="overlay"></div>}
+
     </>
   );
 };
@@ -200,6 +241,7 @@ const DisplayTasks = (props) => {
           dueDate={t.dueDate}
         />
       ))}
+    
     </>
   );
 };
