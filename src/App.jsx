@@ -3,6 +3,8 @@ import Nav from "./components/Nav";
 import { useEffect, useState } from "react";
 import DisplayTasks from "./components/DisplayTasks";
 import AddTaskPopup from "./components/AddTaskPopup"
+import RemoveTaskPopup from "./components/RemoveTaskPopup";
+import AddProject from "./components/AddProject"
 
 
 const initialData = [
@@ -36,70 +38,7 @@ const initialData = [
     isImportant: false,
     id: 2,
   },
-  {
-    title: `Accordion #3`,
-    description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
-    dueDate: `13/10/2022`,
-    priorty: "Low",
-    project: "Home",
-    isCompleted: false,
-    isImportant: false,
-    id: 2,
-  }, {
-    title: `Accordion #3`,
-    description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
-    dueDate: `13/10/2022`,
-    priorty: "Low",
-    project: "Home",
-    isCompleted: false,
-    isImportant: false,
-    id: 2,
-  }, {
-    title: `Accordion #3`,
-    description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
-    dueDate: `13/10/2022`,
-    priorty: "Low",
-    project: "Home",
-    isCompleted: false,
-    isImportant: false,
-    id: 2,
-  }, {
-    title: `Accordion #3`,
-    description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
-    dueDate: `13/10/2022`,
-    priorty: "Low",
-    project: "Home",
-    isCompleted: false,
-    isImportant: false,
-    id: 2,
-  }, {
-    title: `Accordion #3`,
-    description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
-    dueDate: `13/10/2022`,
-    priorty: "Low",
-    project: "Home",
-    isCompleted: false,
-    isImportant: false,
-    id: 2,
-  }, {
-    title: `Accordion #3`,
-    description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
-    dueDate: `13/10/2022`,
-    priorty: "Low",
-    project: "Home",
-    isCompleted: false,
-    isImportant: false,
-    id: 2,
-  }, {
-    title: `Accordion #3`,
-    description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
-    dueDate: `13/10/2022`,
-    priorty: "Low",
-    project: "Home",
-    isCompleted: false,
-    isImportant: false,
-    id: 2,
-  },
+
 ];
 
 const App = () => {
@@ -107,6 +46,8 @@ const App = () => {
 
   const [overlayActive, setOverlayActive] = useState(false)
   const [overlayForRemove, setOverlayForRemove] = useState(false)
+
+  const [displayCustomProject, setDisplayCustomProject] = useState(false)
 
 
   const changePriorty = (newPriorty, id, setModalActive) => {
@@ -129,7 +70,7 @@ const App = () => {
   }
 
   const removeTask = (e, id) => {
-    console.log(e, id)
+    setOverlayForRemove(true)
 
   }
 
@@ -137,11 +78,16 @@ const App = () => {
     setOverlayActive(!overlayActive)
   }
 
+
+  const openCustomProjectPopup = () => {
+    setDisplayCustomProject(true)
+  }
+
   return (
     <div className="App">
       <Header setOverlay={setOverlay} />
       <section className="grid grid-cols-5 grad">
-        <Nav setOverlay={() => setOverlayActive(false)} />
+        <Nav openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
         <main className="acrd-list mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-1 w-full h-auto">
           <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
             Task List
@@ -151,6 +97,9 @@ const App = () => {
         {overlayActive && <AddTaskPopup closePopup={() => setOverlayActive(false)} />}
         {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
       </section>
+      {overlayForRemove && <RemoveTaskPopup setOverlayForRemove={setOverlayForRemove} />}
+
+      {displayCustomProject && <AddProject setDisplayCustomProject={setDisplayCustomProject} />}
     </div>
   );
 };

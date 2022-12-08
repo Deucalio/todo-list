@@ -8,7 +8,6 @@ const Header = ({ setOverlay }) => {
     const svg = e.target;
     const nav = svg.parentElement.nextElementSibling.children[0];
 
-    console.log(svg)
 
     if (nav.classList.value.includes("active")) {
       nav.classList.remove("active");

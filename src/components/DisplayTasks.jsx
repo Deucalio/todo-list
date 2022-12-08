@@ -79,7 +79,7 @@ const DisplayTask = ({
 
   return (
     <>
-      <div className={`container-item max-h-full w-full overflow-x-hidden rounded-md border-2 border-l-[10px]  ${priorty}  bg-indigo-100 py-2 px-3  transition-all duration-[600ms] md:w-11/12`}>
+      <div className={`container-item max-h-full w-[91%] md:mx-auto rounded-md border-2 border-l-[10px]  ${priorty}  bg-indigo-100 py-2 px-3  transition-all duration-[600ms] md:w-11/12`}>
         <button className="flex w-full cursor-default flex-row items-center justify-between sm:gap-1  sm:px-3 py-1">
           <input
             className="inline border-2 border-black focus:ring-0 h-5 w-5"
@@ -216,7 +216,6 @@ const DisplayTasks = (props) => {
   const removeTask = props.removeTask
 
   const [propsTasks, setPropsTasks] = useState(tasks);
-  console.log(tasks);
 
 
 

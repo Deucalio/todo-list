@@ -27,17 +27,17 @@ const AddTaskPopup = ({ closePopup }) => {
                     <li>
                         <label htmlFor="">Title:</label>
                         <input type="text"
-                            className="h-9 w-full rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 px-2 text-sm shadow-sm outline-0" />
+                            className="h-9 w-full rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 px-2 text-lg shadow-sm outline-0" />
                     </li>
                     <li>
                         <label className="" htmlFor="">Description:</label>
                         <textarea id="w3review" name="w3review"
-                            className="h-60 w-full resize-none rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 text-sm shadow-sm outline-0 md:h-40"></textarea>
+                            className="h-32 w-full resize-none rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 text-lg shadow-sm outline-0 md:h-40"></textarea>
                     </li>
                     <li>
                         <label htmlFor="duedate">Due Date:</label>
                         <input type="date" id="duedate"
-                            className="block rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 px-2 text-sm shadow-sm outline-0 h-8 md:h-12" />
+                            className="block rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 px-2 text-md md:text-lg shadow-sm outline-0 h-8 md:h-12" />
                     </li>
                     <li>
                         <label htmlFor="priorty">Priorty:</label>
