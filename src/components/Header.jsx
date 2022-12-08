@@ -8,6 +8,8 @@ const Header = ({ setOverlay }) => {
     const svg = e.target;
     const nav = svg.parentElement.nextElementSibling.children[0];
 
+    console.log(svg)
+
     if (nav.classList.value.includes("active")) {
       nav.classList.remove("active");
       nav.classList.add("un");
@@ -33,7 +35,7 @@ const Header = ({ setOverlay }) => {
           strokeWidth="1.5"
           stroke="currentColor"
         >
-          <path
+          <path className="pointer-events-none"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
