@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import AddTaskPopup from "./AddTaskPopup"
 
 const DisplayTask = ({
+  removeTask,
   changePriorty,
   title,
   description,
@@ -70,7 +71,7 @@ const DisplayTask = ({
   const hidePriortyTooltip = (e) => {
     const overlay = e.target
     const priortyTooltip = overlay.previousElementSibling.children[0].children[4].children[2]
-    
+
     setModalActive(false)
     priortyTooltip.style.opacity = "0"
     priortyTooltip.classList.add("hidden")
@@ -78,7 +79,7 @@ const DisplayTask = ({
 
   return (
     <>
-      <div className={`container-item max-h-full w-full rounded-md border-2 border-l-[10px]  ${priorty}  bg-indigo-100 py-2 px-3  transition-all duration-[600ms] md:w-11/12`}>
+      <div className={`container-item max-h-full w-full overflow-x-hidden rounded-md border-2 border-l-[10px]  ${priorty}  bg-indigo-100 py-2 px-3  transition-all duration-[600ms] md:w-11/12`}>
         <button className="flex w-full cursor-default flex-row items-center justify-between sm:gap-1  sm:px-3 py-1">
           <input
             className="inline border-2 border-black focus:ring-0 h-5 w-5"
@@ -120,14 +121,14 @@ const DisplayTask = ({
               strokeWidth="1.5"
               stroke="currentColor"
             >
-              <path
+              <path className="pointer-events-none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
               />
             </svg>
 
-            <span style={{opacity: "0"}}
+            <span style={{ opacity: "0" }}
               className="absolute top-0 -m-8 h-fit w-fit -translate-x-0 -translate-y-3 rounded-lg bg-violet-600 px-2 py-1 text-sm font-bold text-[#FFFFFF]  transition-all duration-150 ease-in-out after:absolute after:left-1/2 after:bottom-0 after:h-0 after:w-0 after:-translate-x-4 after:translate-y-6 after:border-[15px] after:border-transparent after:border-t-violet-600 after:content-['']"
             >
               Edit
@@ -135,7 +136,7 @@ const DisplayTask = ({
           </div>
 
           <div className="relative">
-            <svg onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
+            <svg onClick={e => removeTask(e.target, id)} onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
               className="toolTipEnable mr-3 w-5 sm:w-10 sm:p-2 rounded-md cursor-pointer hover:bg-indigo-200"
               fill="none"
@@ -143,32 +144,18 @@ const DisplayTask = ({
               strokeWidth="1.5"
               stroke="currentColor"
             >
-              <path
+              <path className="pointer-events-none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
               />
             </svg>
 
-            <span style={{opacity: "0"}}
+            <span style={{ opacity: "0" }}
               data-span-hover
               className="absolute top-0 -m-8 h-fit w-fit -translate-x-2 -translate-y-3 rounded-lg bg-violet-600 px-2 py-1 text-sm font-bold text-[#FFFFFF] opacity-0 transition-all duration-150 ease-in-out after:absolute after:left-1/2 after:bottom-0 after:h-0 after:w-0 after:-translate-x-4 after:translate-y-6 after:border-[15px] after:border-transparent after:border-t-violet-600 after:content-['']"
             >
               Remove
-            </span>
-            <span
-              data-span-remove
-              className="pointer-events-none absolute top-0 -mt-2 -ml-20 flex h-fit w-28 -translate-x-8 -translate-y-3 flex-col gap-1 rounded-lg bg-[#3772FF] py-1 px-2 text-left text-base font-medium tracking-normal text-[#FFFFFF] opacity-0 transition-all duration-150 ease-in-out after:absolute after:-right-11 after:bottom-2/3 after:h-0 after:w-0 after:-translate-x-5 after:translate-y-4 after:-rotate-90 after:border-[15px] after:border-transparent after:border-t-[#3772FF] after:content-['']"
-            >
-              <p className="cursor-pointer hover: hover:outline-2 hover:outline-rose-300">
-                Are you sure?
-              </p>
-              <p className="cursor-pointer text-lg font-bold hover:outline hover:outline-2 hover:outline-rose-300">
-                Yes
-              </p>
-              <p className="cursor-pointer text-lg font-bold hover:outline hover:outline-2 hover:outline-rose-300">
-                No
-              </p>
             </span>
           </div>
 
@@ -181,31 +168,31 @@ const DisplayTask = ({
               strokeWidth="1.5"
               stroke="currentColor"
             >
-              <path
+              <path className="pointer-events-none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5"
               />
             </svg>
-            <span 
-              data-span-hover style={{opacity: "0"}}
+            <span
+              data-span-hover style={{ opacity: "0" }}
               className="absolute top-0 -m-8 h-fit w-32 -translate-x-8 -translate-y-3 rounded-lg bg-violet-600 px-2 py-1 text-sm font-bold text-[#FFFFFF] opacity-0 transition-all duration-150 ease-in-out after:absolute after:left-1/2 after:bottom-0 after:h-0 after:w-0 after:-translate-x-4 after:translate-y-6 after:border-[15px] after:border-transparent after:border-t-violet-600 after:content-['']"
             >
               Change priorty
             </span>
 
             <span
-            style={{opacity: "0"}}
+              style={{ opacity: "0" }}
               data-span-priorty
               className="hidden z-50 absolute top-0 -mt-2 -ml-20 flex h-fit w-24 -translate-x-8 -translate-y-3 flex-col gap-1 rounded-lg bg-[#3772FF] py-1 px-2 text-left text-base font-medium tracking-normal text-[#FFFFFF]  transition-all duration-150 ease-in-out after:absolute after:-right-11 after:bottom-2/3 after:h-0 after:w-0 after:-translate-x-5 after:translate-y-4 after:-rotate-90 after:border-[15px] after:border-transparent after:border-t-[#3772FF] after:content-['']"
             >
-              <p onClick={(e) => changePriorty(e.target.textContent,id)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
+              <p onClick={(e) => changePriorty(e.target, id, setModalActive)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
                 Low
               </p>
-              <p onClick={(e) => changePriorty(e.target.textContent,id)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
+              <p onClick={(e) => changePriorty(e.target, id, setModalActive)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
                 Medium
               </p>
-              <p onClick={(e) => changePriorty(e.target.textContent,id)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
+              <p onClick={(e) => changePriorty(e.target, id, setModalActive)} className="cursor-pointer px-1 hover:outline hover:outline-2 hover:outline-rose-300">
                 High
               </p>
             </span>
@@ -226,16 +213,20 @@ const DisplayTask = ({
 const DisplayTasks = (props) => {
   const tasks = props.tasks;
   const changePriorty = props.changePriorty
+  const removeTask = props.removeTask
 
   const [propsTasks, setPropsTasks] = useState(tasks);
   console.log(tasks);
 
+
+
   return (
     <>
-      {tasks.map((t,i) => (
+      {tasks.map((t, i) => (
         <DisplayTask
-        key={t.id}
-        changePriorty={changePriorty}
+          key={t.id}
+          removeTask={removeTask}
+          changePriorty={changePriorty}
           title={t.title}
           description={t.description}
           dueDate={t.dueDate}
