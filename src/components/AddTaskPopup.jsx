@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useRef } from "react"
 
-const AddTaskPopup = ({ closePopup }) => {
+const AddTaskPopup = ({ closePopup, customProjects }) => {
     const modal = useRef(null)
     // bg-blue-300 hover:cursor-not-allowed for disabled button
 
@@ -44,7 +44,7 @@ const AddTaskPopup = ({ closePopup }) => {
                         <select
                             className="block w-2/3 rounded-md border-2 border-indigo-300 bg-indigo-100 px-2 text-sm shadow-sm outline-0 h-8 md:h-12 md:text-lg"
                             id="taskPriority" required="">
-                            <option value="low" defaultValue>Low</option>
+                            <option value="low">Low</option>
                             <option value="medium">Medium</option>
                             <option value="high">High</option>
                         </select>
@@ -54,8 +54,8 @@ const AddTaskPopup = ({ closePopup }) => {
                         <select
                             className="block w-2/3 rounded-md border-2 border-indigo-300 bg-indigo-100 px-2 text-base shadow-sm outline-0 h-8  md:h-12 md:text-lg"
                             id="taskPriority">
-                            <option value="low" defaultValue>Home</option>
-                            <option value="high">Important</option>
+                            <option value="Home">Home</option>
+                            {customProjects.map(p => <option value={p}>{p}</option>)}
                         </select>
                     </li>
                 </ul>

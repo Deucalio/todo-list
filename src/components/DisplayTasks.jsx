@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import AddTaskPopup from "./AddTaskPopup"
 
 const DisplayTask = ({
+  openEditTaskPopup,
   removeTask,
   changePriorty,
   title,
@@ -13,6 +14,8 @@ const DisplayTask = ({
   isImportant,
   id,
 }) => {
+  dueDate = dueDate.split("-")
+  dueDate = dueDate[2] + "/" + dueDate[1] + "/" + dueDate[0]
   const [modalActive, setModalActive] = useState(false)
 
   const openAccordion = (e) => {
@@ -113,9 +116,9 @@ const DisplayTask = ({
           </div>
 
           <div className="relative">
-            <svg onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
+            <svg onClick={e => openEditTaskPopup(e, id)} onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
-              className="toolTipEnable mr-3 w-5 sm:w-10 sm:p-2 rounded-md cursor-pointer hover:bg-indigo-200"
+              className=" toolTipEnable mr-3 w-5 sm:w-10 sm:p-2 rounded-md cursor-pointer hover:bg-indigo-200"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth="1.5"
@@ -214,6 +217,7 @@ const DisplayTasks = (props) => {
   const tasks = props.tasks;
   const changePriorty = props.changePriorty
   const removeTask = props.removeTask
+  const openEditTaskPopup = props.openEditTaskPopup
 
   const [propsTasks, setPropsTasks] = useState(tasks);
 
@@ -224,6 +228,7 @@ const DisplayTasks = (props) => {
       {tasks.map((t, i) => (
         <DisplayTask
           key={t.id}
+          openEditTaskPopup={openEditTaskPopup}
           removeTask={removeTask}
           changePriorty={changePriorty}
           title={t.title}

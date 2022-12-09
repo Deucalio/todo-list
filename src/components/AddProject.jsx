@@ -1,7 +1,9 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
-const AddProject = ({ setDisplayCustomProject }) => {
+const AddProject = ({ setDisplayCustomProject, customProjects, setCustomProjects }) => {
     const Popup = useRef(null)
+
+    const [projectName, setProjectName] = useState("")
 
     const showPopup = () => {
         setTimeout(() => {
@@ -28,12 +30,21 @@ const AddProject = ({ setDisplayCustomProject }) => {
 
         setTimeout(() => {
             setDisplayCustomProject(false)
+            setProjectName("")
         }, 500)
     }
 
     useEffect(() => {
         showPopup()
     })
+
+    const addCustomProjects = () => {
+        hidePopup()
+        setTimeout(() => {
+            setCustomProjects([...customProjects, projectName])
+
+        }, 500)
+    }
 
     return (
         <>
@@ -45,11 +56,11 @@ const AddProject = ({ setDisplayCustomProject }) => {
                 </div>
                 <div className="flex flex-col gap-2 mt-2 px-3">
                     <label className="text-xl" htmlFor="ProjectName">Name: </label>
-                    <input maxLength="15" className="h-8 rounded-md w-full px-2 bg-indigo-50 border-2 border-gray-600 border-opacity-60" />
+                    <input onChange={e => setProjectName(e.target.value)} value={projectName} maxLength="15" className="h-8 rounded-md w-full px-2 bg-indigo-50 border-2 border-gray-600 border-opacity-60" />
                 </div>
                 <div className="pt-4 w-full flex flex-wrap gap-2 justify-end">
                     <button onClick={hidePopup} className=" md:text-xl  rounded-md border-2 border-slate-600/50 py-1 px-3 text-slate-800 transition-all hover:border-slate-300 hover:bg-slate-600/60 hover:text-white">Close</button>
-                    <button className=" md:text-xl  w-20 rounded-md bg-blue-500 py-2 text-white transition-all hover:bg-blue-600/90 hover:outline-2 hover:outline-blue-800/50">Ok</button>
+                    <button onClick={addCustomProjects} className=" md:text-xl  w-20 rounded-md bg-blue-500 py-2 text-white transition-all hover:bg-blue-600/90 hover:outline-2 hover:outline-blue-800/50">Ok</button>
                 </div>
             </div>
             <div onClick={hidePopup} className="absolute top-0 bottom-0 left-0 right-0 bg-black/50 z-40"></div>
