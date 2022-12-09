@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react"
 
-const EditTask = ({ customProjects,setOverlayEditTask, editedTaskId, tasks, setTasks }) => {
+const EditTask = ({ customProjects, setOverlayEditTask, editedTaskId, tasks, setTasks }) => {
     const modal = useRef(null)
     const OpenButton = useRef(null)
     const taskBeingEdited = tasks.find(t => t.id === editedTaskId)
@@ -110,9 +110,9 @@ const EditTask = ({ customProjects,setOverlayEditTask, editedTaskId, tasks, setT
                         </li>
                         <li>
                             <label htmlFor="">Project:</label>
-                            <select
+                            <select onChange={handleChange} name="project"
                                 className="block w-2/3 rounded-md border-2 border-indigo-300 bg-indigo-100 px-2 text-base shadow-sm outline-indigo-400 h-8  md:h-12 md:text-lg"
-                                id="taskPriority">
+                                id="taskPriority" defaultValue={formData.project}>
                                 <option value="Home">Home</option>
                                 {customProjects.map(p => <option value={p}>{p}</option>)}
                             </select>
