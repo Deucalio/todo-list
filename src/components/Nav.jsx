@@ -2,11 +2,11 @@ import { Link } from "react-router-dom"
 
 const CreateCustomProject = ({ name, setCustomProjects, customProjects }) => {
   const locationName = (name.trim()).split(" ").join("-")
-  console.log(locationName, "nav")
+  // console.log(locationName, "nav")
 
   const removeProject = (e) => {
     const projectName = e.target.previousElementSibling.textContent
-    let newProjectList = customProjects.filter(name => name !== projectName)
+    let newProjectList = customProjects.filter(n => n !== projectName)
     setCustomProjects(newProjectList)
   }
 
@@ -14,7 +14,7 @@ const CreateCustomProject = ({ name, setCustomProjects, customProjects }) => {
     <div className="relative mb-3 pl-7 flex gap-2 mx-auto  flex-wrap items-center  w-48 lg:w-48 lg:mx-auto lg:gap-4">
       <div className="w-3 h-3 rounded-full bg-slate-400 lg:translate-x-2"></div>
       <p className="text-md cursor-pointer text-slate-900 hover:font-semibold">
-        <Link to={locationName}> {name}</Link>
+        <Link to={locationName}>{name}</Link>
       </p>
       <svg onClick={removeProject}
         xmlns="http://www.w3.org/2000/svg"

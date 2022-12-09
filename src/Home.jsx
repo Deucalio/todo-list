@@ -62,7 +62,7 @@ const App = () => {
 
     const location = useLocation()
     let locationName = location.pathname === "/" ? "Home" : location.pathname.slice(1,)
-    console.log("home", locationName.split("-").join(" "))
+    // console.log("home", locationName.split("-").join(" "))
     const [overlayActive, setOverlayActive] = useState(false)
     const [overlayForRemove, setOverlayForRemove] = useState(false)
 
