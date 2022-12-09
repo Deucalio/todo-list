@@ -6,7 +6,7 @@ import AddTaskPopup from "./components/AddTaskPopup"
 import RemoveTaskPopup from "./components/RemoveTaskPopup";
 import AddProject from "./components/AddProject"
 import EditTask from "./components/EditTask";
-
+import {Route, Routes, Link} from "react-router-dom"
 
 const initialData = [
   {
@@ -114,13 +114,16 @@ const App = () => {
           </p>
           <DisplayTasks openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} />
         </main>
-        {overlayActive && <AddTaskPopup customProjects={customProjects} closePopup={() => setOverlayActive(false)} />}
-        {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
+
       </section>
+      {overlayActive && <AddTaskPopup customProjects={customProjects} closePopup={() => setOverlayActive(false)} />}
+      {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
+
       {overlayForRemove && <RemoveTaskPopup setOverlayForRemove={setOverlayForRemove} />}
 
       {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
       {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
+
     </div>
   );
 };
