@@ -1,9 +1,29 @@
 import React from 'react'
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 const AddTaskPopup = ({ closePopup, customProjects }) => {
     const modal = useRef(null)
     // bg-blue-300 hover:cursor-not-allowed for disabled button
+    const titleInput = useRef(null)
+    const descriptionInput = useRef(null)
+    const dueDateInput = useRef(null)
+
+    const [formData, setFormData] = useState({
+        title: "",
+        description: "",
+        dueDate: "",
+        priorty: "",
+        project: "",
+        isCompleted: "",
+        isImportant: "",
+    })
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+
+        setFormData({ ...formData, [name]: value })
+    }
 
     useEffect(() => {
         // const a = document.querySelector(".modal")
@@ -11,6 +31,15 @@ const AddTaskPopup = ({ closePopup, customProjects }) => {
             modal.current.classList.remove("scale-0")
         }, (0.00001));
     })
+
+    // error checking 
+    useEffect(() => {
+
+    })
+
+    const submitForm = (e) => {
+        e.preventDefault()
+    }
 
 
     return (
@@ -22,40 +51,40 @@ const AddTaskPopup = ({ closePopup, customProjects }) => {
                 <button onClick={closePopup} data-close-button className="-translate-y-1 text-4xl">&times;</button>
             </div>
 
-            <form className="">
+            <form onChange={submitForm} className="">
                 <ul className="modal-body mt-5 flex flex-col gap-4 text-lg">
                     <li>
                         <label htmlFor="">Title:</label>
-                        <input type="text"
+                        <input onChange={handleChange} name="title" ref={titleInput} type="text" value={formData.title}
                             className="h-9 w-full rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 px-2 text-lg shadow-sm outline-0" />
                     </li>
                     <li>
                         <label className="" htmlFor="">Description:</label>
-                        <textarea id="w3review" name="w3review"
+                        <textarea onChange={handleChange} name="description" ref={descriptionInput} value={formData.description}
                             className="h-32 w-full resize-none rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 text-lg shadow-sm outline-0 md:h-40"></textarea>
                     </li>
                     <li>
                         <label htmlFor="duedate">Due Date:</label>
-                        <input type="date" id="duedate"
+                        <input onChange={handleChange} name="dueDate" ref={dueDateInput} type="date" id="duedate" value={formData.dueDate}
                             className="block rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 px-2 text-md md:text-lg shadow-sm outline-0 h-8 md:h-12" />
                     </li>
                     <li>
                         <label htmlFor="priorty">Priorty:</label>
-                        <select
+                        <select onChange={handleChange} value={formData.priorty} name="priorty"
                             className="block w-2/3 rounded-md border-2 border-indigo-300 bg-indigo-100 px-2 text-sm shadow-sm outline-0 h-8 md:h-12 md:text-lg"
                             id="taskPriority" required="">
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
                         </select>
                     </li>
                     <li>
                         <label htmlFor="">Project:</label>
-                        <select
+                        <select onChange={handleChange} name="project"
                             className="block w-2/3 rounded-md border-2 border-indigo-300 bg-indigo-100 px-2 text-base shadow-sm outline-0 h-8  md:h-12 md:text-lg"
-                            id="taskPriority">
+                            id="taskPriority" defaultValue={formData.project}>
                             <option value="Home">Home</option>
-                            {customProjects.map(p => <option value={p}>{p}</option>)}
+                            {customProjects.map((p, i) => <option key={i} value={p}>{p}</option>)}
                         </select>
                     </li>
                 </ul>

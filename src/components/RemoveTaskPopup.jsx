@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 
-const RemoveTaskPopup = ({ setOverlayForRemove }) => {
+const RemoveTaskPopup = ({ setTASKS, TASKS, setOverlayForRemove, idForTaskBeingRemoved }) => {
 
     const [isActive, setIsActive] = useState(false)
 
@@ -21,6 +21,15 @@ const RemoveTaskPopup = ({ setOverlayForRemove }) => {
         }, 0.0001)
     })
 
+    const deleteTask = () => {
+        hidePopup()
+        setTimeout(() => {
+            const newTask = TASKS.filter(t => t.id !== idForTaskBeingRemoved)
+            setTASKS(newTask)
+        }, 200)
+
+    }
+
     return (
         <>
             <div id="deleteTask"
@@ -33,7 +42,7 @@ const RemoveTaskPopup = ({ setOverlayForRemove }) => {
 
                     <div className="btn self-end mt-5 sm:mt-8 flex flex-wrap gap-4 ">
                         <button onClick={hidePopup} className=" md:text-xl  rounded-md border-2 border-slate-600/50 py-2 px-3 text-slate-800 transition-all hover:border-slate-300 hover:bg-slate-600/60 hover:text-white">Close</button>
-                        <button className=" md:text-xl   w-24 rounded-md bg-blue-500 py-1 text-white transition-all hover:bg-blue-600/90 hover:outline-2 hover:outline-blue-800/50">Ok</button>
+                        <button onClick={deleteTask} className=" md:text-xl   w-24 rounded-md bg-blue-500 py-1 text-white transition-all hover:bg-blue-600/90 hover:outline-2 hover:outline-blue-800/50">Ok</button>
 
                     </div>
                 </div>

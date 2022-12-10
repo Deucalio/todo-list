@@ -17,7 +17,6 @@ const initialData = [
         priorty: "High",
         project: "Home",
         isCompleted: false,
-        isImportant: false,
         id: 0,
     },
     {
@@ -27,7 +26,6 @@ const initialData = [
         priorty: "Medium",
         project: "Home",
         isCompleted: false,
-        isImportant: false,
         id: 1,
     },
     {
@@ -37,7 +35,6 @@ const initialData = [
         priorty: "Low",
         project: "Home",
         isCompleted: false,
-        isImportant: false,
         id: 2,
     },
     {
@@ -47,7 +44,6 @@ const initialData = [
         priorty: "Low",
         project: "Custom Project",
         isCompleted: false,
-        isImportant: false,
         id: 3,
     },
 
@@ -72,7 +68,7 @@ const Home = () => {
     useEffect(() => {
         const filteredTasks = TASKS.filter(task => task.project === locationName.split("-").join(" "))
         setTasks(filteredTasks)
-    }, [url])
+    }, [url, TASKS])
 
     // console.log("home", locationName.split("-").join(" "))
     const [overlayActive, setOverlayActive] = useState(false)
@@ -103,10 +99,7 @@ const Home = () => {
         setModalActive(false)
     }
 
-    const removeTask = (e, id) => {
-        setOverlayForRemove(true)
 
-    }
 
     const setOverlay = () => {
         setOverlayActive(!overlayActive)
@@ -143,17 +136,26 @@ const Home = () => {
 
     // CRUD functions
     // add a task, remove a task, edit a task
+
+
     // removes all the tasks in a project
     const removeAllTasks = (customProjectName) => {
         const newTask = TASKS.filter(task => task.project !== customProjectName)
         setTASKS(newTask)
     }
 
+    // remove the task given id (triggers when user clicks on remove icon)
+    const [idForTaskBeingRemoved, setIdForTaskBeingRemoved] = useState(null)
+    const removeTask = (e, id) => {
+        setOverlayForRemove(true)
+        setIdForTaskBeingRemoved(id)
+    }
+
     return (
         <>
             <Header setOverlay={setOverlay} />
             <section className="grid grid-cols-5 grad">
-                <Nav removeAllTasks={removeAllTasks} TASKS={TASKS} setTASKS={setTASKS} setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
+                <Nav removeAllTasks={removeAllTasks} setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
                 <main className="acrd-list mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-1 w-full h-auto">
                     <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
                         Task List
@@ -170,7 +172,7 @@ const Home = () => {
             {overlayActive && <AddTaskPopup customProjects={customProjects} closePopup={() => setOverlayActive(false)} />}
             {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
 
-            {overlayForRemove && <RemoveTaskPopup setOverlayForRemove={setOverlayForRemove} />}
+            {overlayForRemove && <RemoveTaskPopup TASKS={TASKS} setTASKS={setTASKS} tasks={tasks} setTasks={setTasks} idForTaskBeingRemoved={idForTaskBeingRemoved} setOverlayForRemove={setOverlayForRemove} />}
 
             {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
             {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}

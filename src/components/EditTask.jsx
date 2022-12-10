@@ -114,7 +114,7 @@ const EditTask = ({ customProjects, setOverlayEditTask, editedTaskId, tasks, set
                                 className="block w-2/3 rounded-md border-2 border-indigo-300 bg-indigo-100 px-2 text-base shadow-sm outline-indigo-400 h-8  md:h-12 md:text-lg"
                                 id="taskPriority" defaultValue={formData.project}>
                                 <option value="Home">Home</option>
-                                {customProjects.map(p => <option value={p}>{p}</option>)}
+                                {customProjects.map((p,i) => <option key={i} value={p}>{p}</option>)}
                             </select>
 
                         </li>
