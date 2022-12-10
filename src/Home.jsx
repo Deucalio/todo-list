@@ -151,6 +151,13 @@ const Home = () => {
         setIdForTaskBeingRemoved(id)
     }
 
+    // add a task
+    const addTask = (t) => {
+        const task = t
+        t["id"] = TASKS.length
+        setTASKS([...TASKS, task])
+    }
+
     return (
         <>
             <Header setOverlay={setOverlay} />
@@ -169,7 +176,7 @@ const Home = () => {
                 </main>
 
             </section>
-            {overlayActive && <AddTaskPopup customProjects={customProjects} closePopup={() => setOverlayActive(false)} />}
+            {overlayActive && <AddTaskPopup addTask={addTask} customProjects={customProjects} closePopup={() => setOverlayActive(false)} />}
             {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
 
             {overlayForRemove && <RemoveTaskPopup TASKS={TASKS} setTASKS={setTASKS} tasks={tasks} setTasks={setTasks} idForTaskBeingRemoved={idForTaskBeingRemoved} setOverlayForRemove={setOverlayForRemove} />}
