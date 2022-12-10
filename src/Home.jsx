@@ -6,7 +6,7 @@ import AddTaskPopup from "./components/AddTaskPopup"
 import RemoveTaskPopup from "./components/RemoveTaskPopup";
 import AddProject from "./components/AddProject"
 import EditTask from "./components/EditTask";
-import { Route, Routes, Link, useLocation } from "react-router-dom"
+import { Route, Routes, Link, useLocation, useParams } from "react-router-dom"
 import NotFound from "./components/NotFound";
 
 const initialData = [
@@ -53,15 +53,27 @@ const initialData = [
 
 ];
 
-const App = () => {
+const Home = () => {
     // capitals letters imply immutability and immortality
     const [TASKS, setTASKS] = useState(initialData)
+
+
 
     const [tasks, setTasks] = useState(initialData);
     const [customProjects, setCustomProjects] = useState(["Custom Project", "Another Project"])
 
     const location = useLocation()
     let locationName = location.pathname === "/" ? "Home" : location.pathname.slice(1,)
+
+
+
+
+    useEffect(() => {
+        const filteredTasks = tasks.filter(task => task.project === locationName.split("-").join(" "))
+        console.log("ss", locationName.split("-").join(" "), filteredTasks)
+
+    })
+
     // console.log("home", locationName.split("-").join(" "))
     const [overlayActive, setOverlayActive] = useState(false)
     const [overlayForRemove, setOverlayForRemove] = useState(false)
@@ -120,42 +132,79 @@ const App = () => {
         // console.log(newTask)
     }
 
-    if (locationName === "Home") {
+
+    if ((!customProjects.includes(locationName.split("-").join(" ")) && locationName !== "Home")) {
+
         return (
-            <div className="App">
-                <Header setOverlay={setOverlay} />
-                <section className="grid grid-cols-5 grad">
-                    <Nav setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
-                    <main className="acrd-list mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-1 w-full h-auto">
-                        <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
-                            Task List
-                        </p>
-                        <DisplayTasks openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} />
-                    </main>
-
-                </section>
-                {overlayActive && <AddTaskPopup customProjects={customProjects} closePopup={() => setOverlayActive(false)} />}
-                {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
-
-                {overlayForRemove && <RemoveTaskPopup setOverlayForRemove={setOverlayForRemove} />}
-
-                {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
-                {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
-
-            </div>
-        );
-    } else if (customProjects.includes(locationName.split("-").join(" "))) {
-        return (
-            <p className="text-5xl text-rose-900 h-screen text-center py-64 absolute bg-slate-900 w-screen">We got ya</p>
-        )
-    }
-    else {
-        return (
-            < NotFound />
+            <NotFound />
         )
     }
 
+    return (
+        <>
+            <Header setOverlay={setOverlay} />
+            <section className="grid grid-cols-5 grad">
+                <Nav setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
+                <main className="acrd-list mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-1 w-full h-auto">
+                    <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
+                        Task List
+                    </p>
 
+                    { }
+
+
+
+                    {(locationName === "Home") ? <DisplayTasks openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} /> :
+                        <DisplayTasks locationName={locationName.split("-").join(" ")} openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} />}
+                </main>
+
+            </section>
+            {overlayActive && <AddTaskPopup customProjects={customProjects} closePopup={() => setOverlayActive(false)} />}
+            {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
+
+            {overlayForRemove && <RemoveTaskPopup setOverlayForRemove={setOverlayForRemove} />}
+
+            {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
+            {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
+        </>
+    )
 };
 
-export default App;
+export default Home;
+
+
+
+
+// if (locationName === "Home") {
+//     return (
+//         <>
+//             <Header setOverlay={setOverlay} />
+//             <section className="grid grid-cols-5 grad">
+//                 <Nav setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
+//                 <main className="acrd-list mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-1 w-full h-auto">
+//                     <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
+//                         Task List
+//                     </p>
+//                     <DisplayTasks openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} />
+//                 </main>
+
+//             </section>
+//             {overlayActive && <AddTaskPopup customProjects={customProjects} closePopup={() => setOverlayActive(false)} />}
+//             {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
+
+//             {overlayForRemove && <RemoveTaskPopup setOverlayForRemove={setOverlayForRemove} />}
+
+//             {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
+//             {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
+//         </>
+//     );
+// } else if (customProjects.includes(locationName.split("-").join(" "))) {
+//     return (
+//         <DisplayTasks locationName={locationName.split("-").join(" ")} openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} />
+//     )
+// }
+// else {
+//     return (
+//         < NotFound />
+//     )
+// }

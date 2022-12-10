@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { useEffect, useRef } from "react"
 
-const CreateCustomProject = ({ name, setCustomProjects, customProjects }) => {
+const CreateCustomProject = ({ name, setCustomProjects, customProjects, handleNavigate }) => {
   const locationName = (name.trim()).split(" ").join("-")
-  // console.log(locationName, "nav")
+
+
 
   const removeProject = (e) => {
     const projectName = e.target.previousElementSibling.textContent
@@ -13,8 +15,8 @@ const CreateCustomProject = ({ name, setCustomProjects, customProjects }) => {
   return (
     <div className="relative mb-3 pl-7 flex gap-2 mx-auto  flex-wrap items-center  w-48 lg:w-48 lg:mx-auto lg:gap-4">
       <div className="w-3 h-3 rounded-full bg-slate-400 lg:translate-x-2"></div>
-      <p className="text-md cursor-pointer text-slate-900 hover:font-semibold">
-        <Link to={locationName}>{name}</Link>
+      <p onClick={e => handleNavigate(e)} className="text-md cursor-pointer text-slate-900 hover:font-semibold">
+        {name}
       </p>
       <svg onClick={removeProject}
         xmlns="http://www.w3.org/2000/svg"
@@ -35,6 +37,61 @@ const CreateCustomProject = ({ name, setCustomProjects, customProjects }) => {
 }
 
 const Nav = ({ setOverlay, openCustomProjectPopup, customProjects, setCustomProjects }) => {
+  const navigate = useNavigate()
+  let params = useParams()
+  const homeLink = useRef(null)
+
+  const customProjectParentElement = useRef(null)
+
+
+  console.log("parms", params)
+
+  useEffect(() => {
+    let customProjectDivs = [...customProjectParentElement.current.children]
+
+
+    if (params.customProject === undefined) {
+      homeLink.current.classList.add("font-bold")
+
+      customProjectDivs.map(d => {
+        if (d.classList.value.includes("font-bold")) {
+          d.classList.remove("font-bold")
+        }
+      })
+      console.log("we're home")
+    } else {
+      customProjectDivs.map(d => {
+        if (d.textContent === params.customProject.split("-").join(" ")) {
+          d.classList.add("font-bold")
+        }
+      })
+    }
+
+
+  })
+
+
+  const handleNavigate = (element) => {
+    const text = element.target.textContent
+    let customProjectDivs = [...customProjectParentElement.current.children]
+
+    homeLink.current.classList.remove("font-bold")
+
+    // element.target.classList.add("font-bold")
+
+    customProjectDivs.map(d => {
+      if (d.classList.value.includes("font-bold")) {
+        d.classList.remove("font-bold")
+      }
+    })
+
+
+    // check if class already exists
+
+
+    let formateText = (text.trim()).split(" ").join("-")
+    navigate(`/${formateText}`)
+  }
   const handleChange = (e) => {
     const element = e.target;
     const svgClasses = element.children[1].children[1].classList;
@@ -50,21 +107,31 @@ const Nav = ({ setOverlay, openCustomProjectPopup, customProjects, setCustomProj
       : customProjDiv.classList.add("opacity-0", "-mt-5", "pointer-events-none");
   };
 
+  const addFont = (homeElement) => {
+    homeElement.classList.add("font-bold")
+  }
   return (
     <nav onClick={setOverlay} className="grad absolute overflow-y-scroll z-20 w-60 bg-[#E0E0E0] shadow-xl md:static md:col-span-1 md:h-auto md:w-auto active">
       <div className="flex flex-col items-center justify-evenly pb-7 md:flex-row">
         <p className="px-2 py-2 text-left text-4xl tracking-normal text-slate-600">
-          To-Do
+          <Link to="/">
+            To-Do
+          </Link>
+
         </p>
-        <svg
-          className="w-9 text-black/50 md:ml-0 lg:-ml-12"
-          viewBox="0 0 24 24"
-        >
-          <path
-            fill="currentColor"
-            d="M3,7V5H5V4C5,2.89 5.9,2 7,2H13V9L15.5,7.5L18,9V2H19C20.05,2 21,2.95 21,4V20C21,21.05 20.05,22 19,22H7C5.95,22 5,21.05 5,20V19H3V17H5V13H3V11H5V7H3M7,11H5V13H7V11M7,7V5H5V7H7M7,19V17H5V19H7Z"
-          />
-        </svg>
+        <Link to="/">
+
+          <svg
+            className="w-9 text-black/50 md:ml-0 lg:-ml-12"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="M3,7V5H5V4C5,2.89 5.9,2 7,2H13V9L15.5,7.5L18,9V2H19C20.05,2 21,2.95 21,4V20C21,21.05 20.05,22 19,22H7C5.95,22 5,21.05 5,20V19H3V17H5V13H3V11H5V7H3M7,11H5V13H7V11M7,7V5H5V7H7M7,19V17H5V19H7Z"
+            />
+          </svg>
+        </Link>
+
       </div>
 
       <div className="my-5 flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold sm:gap-1  lg:w-48 lg:mx-auto lg:gap-4">
@@ -82,7 +149,7 @@ const Nav = ({ setOverlay, openCustomProjectPopup, customProjects, setCustomProj
             d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
           />
         </svg>
-        <p className="text-lg font-bold text-slate-700">Home</p>
+        <p ref={homeLink} className="text-lg text-slate-700"><Link to="/">Home</Link></p>
       </div>
 
       <div className="flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4">
@@ -142,9 +209,9 @@ const Nav = ({ setOverlay, openCustomProjectPopup, customProjects, setCustomProj
         </div>
       </div>
 
-      <div className={`customProj transition-all -mt-5 opacity-0 pointer-events-none pb-12`}>
+      <div ref={customProjectParentElement} className={`customProj transition-all -mt-5 opacity-0 pointer-events-none pb-12`}>
 
-        {customProjects.map(n => <CreateCustomProject customProjects={customProjects} setCustomProjects={setCustomProjects} name={n} />)}
+        {customProjects.map(n => <CreateCustomProject handleNavigate={handleNavigate} customProjects={customProjects} setCustomProjects={setCustomProjects} name={n} />)}
 
 
 

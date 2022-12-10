@@ -218,6 +218,7 @@ const DisplayTasks = (props) => {
   const changePriorty = props.changePriorty
   const removeTask = props.removeTask
   const openEditTaskPopup = props.openEditTaskPopup
+  const locationName = props.locationName
 
   const [propsTasks, setPropsTasks] = useState(tasks);
 
