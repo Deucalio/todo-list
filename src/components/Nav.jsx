@@ -3,10 +3,12 @@ import { useEffect, useRef } from "react"
 
 const CreateCustomProject = ({ name, setCustomProjects, customProjects, handleNavigate }) => {
   const locationName = (name.trim()).split(" ").join("-")
+  const navigate = useNavigate()
 
 
 
   const removeProject = (e) => {
+    navigate("/")
     const projectName = e.target.previousElementSibling.textContent
     let newProjectList = customProjects.filter(n => n !== projectName)
     setCustomProjects(newProjectList)
