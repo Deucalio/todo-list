@@ -55,7 +55,7 @@ const AddProject = ({ setDisplayCustomProject, customProjects, setCustomProjects
             hidePopup()
 
             setTimeout(() => {
-                setCustomProjects([...customProjects, projectName])
+                setCustomProjects([...customProjects, projectName.trim()])
 
             }, 500)
         } else {
@@ -81,7 +81,7 @@ const AddProject = ({ setDisplayCustomProject, customProjects, setCustomProjects
                     <button onClick={hidePopup} className=" md:text-xl  rounded-md border-2 border-slate-600/50 py-1 px-3 text-slate-800 transition-all hover:border-slate-300 hover:bg-slate-600/60 hover:text-white">Close</button>
                     <button onClick={addCustomProjects} className=" md:text-xl  w-20 rounded-md bg-blue-500 py-2 text-white transition-all hover:bg-blue-600/90 hover:outline-2 hover:outline-blue-800/50">Ok</button>
                 </div>
-                <div ref={errorDiv} className="relative hidden">
+                <div ref={errorDiv} className="relative top-6 sm:top-auto">
                     <span className="text-lg text-[red] block -top-8 absolute w-fit">No special characters please</span>
                     <svg className="absolute w-6 h-6 text-[red] right-0 -top-8 m-1 left-56" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />

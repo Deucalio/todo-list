@@ -57,22 +57,22 @@ const Home = () => {
     // capitals letters imply immutability and immortality
     const [TASKS, setTASKS] = useState(initialData)
 
-
-
     const [tasks, setTasks] = useState(initialData);
     const [customProjects, setCustomProjects] = useState(["Custom Project", "Another Project"])
 
     const location = useLocation()
     let locationName = location.pathname === "/" ? "Home" : location.pathname.slice(1,)
 
-
+    const [url, setUrl] = useState("home")
+    useEffect(() => {
+        setUrl(locationName)
+    })
 
 
     useEffect(() => {
-        const filteredTasks = tasks.filter(task => task.project === locationName.split("-").join(" "))
-        console.log("ss", locationName.split("-").join(" "), filteredTasks)
-
-    })
+        const filteredTasks = TASKS.filter(task => task.project === locationName.split("-").join(" "))
+        setTasks(filteredTasks)
+    }, [url])
 
     // console.log("home", locationName.split("-").join(" "))
     const [overlayActive, setOverlayActive] = useState(false)
@@ -140,18 +140,26 @@ const Home = () => {
         )
     }
 
+
+    // CRUD functions
+    // add a task, remove a task, edit a task
+    // removes all the tasks in a project
+    const removeAllTasks = (customProjectName) => {
+        const newTask = TASKS.filter(task => task.project !== customProjectName)
+        setTASKS(newTask)
+    }
+
     return (
         <>
             <Header setOverlay={setOverlay} />
             <section className="grid grid-cols-5 grad">
-                <Nav setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
+                <Nav removeAllTasks={removeAllTasks} TASKS={TASKS} setTASKS={setTASKS} setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
                 <main className="acrd-list mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-1 w-full h-auto">
                     <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
                         Task List
                     </p>
 
                     { }
-
 
 
                     {(locationName === "Home") ? <DisplayTasks openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} /> :

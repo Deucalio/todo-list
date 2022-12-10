@@ -1,10 +1,9 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useRef } from "react"
 
-const CreateCustomProject = ({ name, setCustomProjects, customProjects, handleNavigate }) => {
+const CreateCustomProject = ({ removeAllTasks, name, setCustomProjects, customProjects, handleNavigate }) => {
   const locationName = (name.trim()).split(" ").join("-")
   const navigate = useNavigate()
-
 
 
   const removeProject = (e) => {
@@ -12,6 +11,10 @@ const CreateCustomProject = ({ name, setCustomProjects, customProjects, handleNa
     const projectName = e.target.previousElementSibling.textContent
     let newProjectList = customProjects.filter(n => n !== projectName)
     setCustomProjects(newProjectList)
+
+    // also remove the tasks within this project
+    removeAllTasks(projectName)
+
   }
 
   return (
@@ -38,33 +41,34 @@ const CreateCustomProject = ({ name, setCustomProjects, customProjects, handleNa
   )
 }
 
-const Nav = ({ setOverlay, openCustomProjectPopup, customProjects, setCustomProjects }) => {
+const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProjects, setCustomProjects }) => {
   const navigate = useNavigate()
   let params = useParams()
   const homeLink = useRef(null)
 
+
+
+
+
+
   const customProjectParentElement = useRef(null)
-
-
-  console.log("parms", params)
 
   useEffect(() => {
     let customProjectDivs = [...customProjectParentElement.current.children]
 
 
     if (params.customProject === undefined) {
-      homeLink.current.classList.add("font-bold")
+      homeLink.current.classList.add("font-semibold")
 
       customProjectDivs.map(d => {
-        if (d.classList.value.includes("font-bold")) {
-          d.classList.remove("font-bold")
+        if (d.classList.value.includes("font-semibold")) {
+          d.classList.remove("font-semibold")
         }
       })
-      console.log("we're home")
     } else {
       customProjectDivs.map(d => {
         if (d.textContent === params.customProject.split("-").join(" ")) {
-          d.classList.add("font-bold")
+          d.classList.add("font-semibold")
         }
       })
     }
@@ -77,21 +81,19 @@ const Nav = ({ setOverlay, openCustomProjectPopup, customProjects, setCustomProj
     const text = element.target.textContent
     let customProjectDivs = [...customProjectParentElement.current.children]
 
-    homeLink.current.classList.remove("font-bold")
+    homeLink.current.classList.remove("font-semibold")
 
     // element.target.classList.add("font-bold")
 
     customProjectDivs.map(d => {
-      if (d.classList.value.includes("font-bold")) {
-        d.classList.remove("font-bold")
+      if (d.classList.value.includes("font-semibold")) {
+        d.classList.remove("font-semibold")
       }
     })
 
 
-    // check if class already exists
-
-
     let formateText = (text.trim()).split(" ").join("-")
+
     navigate(`/${formateText}`)
   }
   const handleChange = (e) => {
@@ -110,7 +112,7 @@ const Nav = ({ setOverlay, openCustomProjectPopup, customProjects, setCustomProj
   };
 
   const addFont = (homeElement) => {
-    homeElement.classList.add("font-bold")
+    homeElement.classList.add("font-semibold")
   }
   return (
     <nav onClick={setOverlay} className="grad absolute overflow-y-scroll z-20 w-60 bg-[#E0E0E0] shadow-xl md:static md:col-span-1 md:h-auto md:w-auto active">
@@ -121,22 +123,21 @@ const Nav = ({ setOverlay, openCustomProjectPopup, customProjects, setCustomProj
           </Link>
 
         </p>
-        <Link to="/">
 
-          <svg
-            className="w-9 text-black/50 md:ml-0 lg:-ml-12"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="currentColor"
-              d="M3,7V5H5V4C5,2.89 5.9,2 7,2H13V9L15.5,7.5L18,9V2H19C20.05,2 21,2.95 21,4V20C21,21.05 20.05,22 19,22H7C5.95,22 5,21.05 5,20V19H3V17H5V13H3V11H5V7H3M7,11H5V13H7V11M7,7V5H5V7H7M7,19V17H5V19H7Z"
-            />
-          </svg>
-        </Link>
+        <svg
+          className="w-9 text-black/50 md:ml-0 lg:-ml-12"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M3,7V5H5V4C5,2.89 5.9,2 7,2H13V9L15.5,7.5L18,9V2H19C20.05,2 21,2.95 21,4V20C21,21.05 20.05,22 19,22H7C5.95,22 5,21.05 5,20V19H3V17H5V13H3V11H5V7H3M7,11H5V13H7V11M7,7V5H5V7H7M7,19V17H5V19H7Z"
+          />
+        </svg>
+
 
       </div>
 
-      <div className="my-5 flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold sm:gap-1  lg:w-48 lg:mx-auto lg:gap-4">
+      <div className="my-5 flex cursor-pointer flex-wrap items-center pl-1 hover:font-bold sm:gap-1  lg:w-48 lg:mx-auto lg:gap-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -213,7 +214,7 @@ const Nav = ({ setOverlay, openCustomProjectPopup, customProjects, setCustomProj
 
       <div ref={customProjectParentElement} className={`customProj transition-all -mt-5 opacity-0 pointer-events-none pb-12`}>
 
-        {customProjects.map(n => <CreateCustomProject handleNavigate={handleNavigate} customProjects={customProjects} setCustomProjects={setCustomProjects} name={n} />)}
+        {customProjects.map(n => <CreateCustomProject removeAllTasks={removeAllTasks} handleNavigate={handleNavigate} customProjects={customProjects} setCustomProjects={setCustomProjects} name={n} />)}
 
 
 
