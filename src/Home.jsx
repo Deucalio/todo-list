@@ -70,7 +70,6 @@ const Home = () => {
         setTasks(filteredTasks)
     }, [url, TASKS])
 
-    // console.log("home", locationName.split("-").join(" "))
     const [overlayActive, setOverlayActive] = useState(false)
     const [overlayForRemove, setOverlayForRemove] = useState(false)
 
@@ -80,24 +79,7 @@ const Home = () => {
     const [overlayEditTask, setOverlayEditTask] = useState(false)
     const [editedTaskId, setEditedTaskId] = useState(null)
 
-    const changePriorty = (newPriorty, id, setModalActive) => {
 
-        const priortyTooltip = newPriorty.parentElement
-
-
-        const newList = tasks.map(t => {
-            if (t.id === id) {
-                return { ...t, priorty: newPriorty.textContent }
-            } else {
-                return t
-            }
-        })
-        setTasks(newList)
-
-        priortyTooltip.style.opacity = "0"
-        priortyTooltip.classList.add("hidden")
-        setModalActive(false)
-    }
 
 
 
@@ -137,6 +119,26 @@ const Home = () => {
     // CRUD functions
     // add a task, remove a task, edit a task
 
+    // changing priorty
+    const changePriorty = (newPriorty, id, setModalActive) => {
+
+        const priortyTooltip = newPriorty.parentElement
+
+
+        const newList = TASKS.map(t => {
+            if (t.id === id) {
+                return { ...t, priorty: newPriorty.textContent }
+            } else {
+                return t
+            }
+        })
+        setTASKS(newList)
+
+        priortyTooltip.style.opacity = "0"
+        priortyTooltip.classList.add("hidden")
+        setModalActive(false)
+    }
+
 
     // removes all the tasks in a project
     const removeAllTasks = (customProjectName) => {
@@ -156,6 +158,22 @@ const Home = () => {
         const task = t
         t["id"] = TASKS.length
         setTASKS([...TASKS, task])
+    }
+
+
+    // edit a task
+    const editTask = (id, t) => {
+        const editedTask = t;
+        const idOfEditedTask = id
+        const newList = TASKS.map(task => {
+            if (task["id"] === idOfEditedTask) {
+                return editedTask
+            } else {
+                return task
+            }
+        })
+        console.log(editedTask)
+        setTASKS(newList)
     }
 
     return (
@@ -182,7 +200,7 @@ const Home = () => {
             {overlayForRemove && <RemoveTaskPopup TASKS={TASKS} setTASKS={setTASKS} tasks={tasks} setTasks={setTasks} idForTaskBeingRemoved={idForTaskBeingRemoved} setOverlayForRemove={setOverlayForRemove} />}
 
             {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
-            {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
+            {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editTask={editTask} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
         </>
     )
 };

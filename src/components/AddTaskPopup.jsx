@@ -33,10 +33,6 @@ const AddTaskPopup = ({ addTask, closePopup, customProjects }) => {
         }, (0.0001));
     })
 
-    // error checking 
-    useEffect(() => {
-
-    })
 
     const errorCheck = () => {
         const isError = [null, null, null]
@@ -82,7 +78,6 @@ const AddTaskPopup = ({ addTask, closePopup, customProjects }) => {
             isError[2] = true
         }
         if (isError.every(b => b == true)) {
-            console.log(trimmedValues)
             const newData = { ...formData, title: trimmedValues[0], description: trimmedValues[1] }
             setFormData({ ...newData })
             return true
@@ -169,7 +164,7 @@ const AddTaskPopup = ({ addTask, closePopup, customProjects }) => {
                         <label htmlFor="">Project:</label>
                         <select onChange={handleChange} name="project"
                             className="block w-2/3 rounded-md border-2 border-indigo-300 bg-indigo-100 px-2 text-base shadow-sm outline-0 h-8  md:h-12 md:text-lg"
-                            id="taskPriority" defaultValue={formData.project}>
+                            id="taskPriority" value={formData.project}>
                             <option value="Home">Home</option>
                             {customProjects.map((p, i) => <option key={i} value={p}>{p}</option>)}
                         </select>
