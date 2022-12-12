@@ -6,8 +6,9 @@ import AddTaskPopup from "./components/AddTaskPopup"
 import RemoveTaskPopup from "./components/RemoveTaskPopup";
 import AddProject from "./components/AddProject"
 import EditTask from "./components/EditTask";
-import { Route, Routes, Link, useLocation, useParams } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import NotFound from "./components/NotFound";
+import TaskDone from "./components/TaskDone";
 
 const initialData = [
     {
@@ -16,8 +17,8 @@ const initialData = [
         dueDate: `2022-12-09`,
         priorty: "High",
         project: "Home",
-        isCompleted: false,
         id: 0,
+        isCompleted: false
     },
     {
         title: `Accordion #2 asdfa`,
@@ -25,8 +26,8 @@ const initialData = [
         dueDate: `2022-12-31`,
         priorty: "Medium",
         project: "Home",
-        isCompleted: false,
         id: 1,
+        isCompleted: false
     },
     {
         title: `Accordion #3`,
@@ -34,8 +35,8 @@ const initialData = [
         dueDate: "2023-03-16",
         priorty: "Low",
         project: "Home",
-        isCompleted: false,
         id: 2,
+        isCompleted: false
     },
     {
         title: `Accordion #3`,
@@ -43,8 +44,8 @@ const initialData = [
         dueDate: "2023-03-16",
         priorty: "Low",
         project: "Custom Project",
-        isCompleted: false,
         id: 3,
+        isCompleted: false
     },
 
 ];
@@ -66,7 +67,8 @@ const Home = () => {
 
 
     useEffect(() => {
-        const filteredTasks = TASKS.filter(task => task.project === locationName.split("-").join(" "))
+        const filteredTasks = TASKS.filter(task => (task.project === locationName.split("-").join(" ") &&
+            task.isCompleted !== true))
         setTasks(filteredTasks)
     }, [url, TASKS])
 
@@ -95,16 +97,6 @@ const Home = () => {
     const openEditTaskPopup = (e, id) => {
         setOverlayEditTask(true)
         setEditedTaskId(id)
-        // const newTask = tasks.map(t => {
-        //   if (t['id'] === id) {
-        //     return { ...t, title: "JOHN CENA!" }
-        //   }
-        //   else {
-        //     return t
-        //   }
-        // })
-        // setTasks(newTask)
-        // console.log(newTask)
     }
 
 
@@ -176,6 +168,78 @@ const Home = () => {
         setTASKS(newList)
     }
 
+    // task completed 
+    const [taskCompletedPopup, setTaskCompletedPopup] = useState(false)
+    const [removedTASK, setRemovedTASK] = useState([])
+    const taskCompleted = (element, id) => {
+        const markedCompleted = TASKS.map(t => {
+            if (t['id'] === id) {
+                return { ...t, isCompleted: true }
+            } else {
+                return t
+            }
+        })
+
+        const completedTaskId = id
+        const completedTaskElement = element
+        const removedTask = completedTaskElement.parentElement.parentElement
+        setTaskCompletedPopup(true)
+        setRemovedTASK([markedCompleted, completedTaskId, removedTask])
+
+        removedTask.style.transition = "all 0.3s ease"
+
+        setTimeout(() => {
+            removedTask.style.padding = "0"
+            removedTask.style.maxHeight = "1rem"
+            removedTask.style.opacity = "0"
+        }, 0.001)
+
+        setTimeout(() => {
+            removedTask.classList.add("hidden")
+        }, 300)
+
+        // hide popup after 6 seconds
+
+
+
+    }
+
+    // bring the task back if user clicks on undo button
+    const undoFunc = (element) => {
+        setTaskCompletedPopup(false)
+        removedTASK[2].classList.remove("hidden")
+        // const div = element.parentElement.previousElementSibling.children[1].children[removedTASK[1] + 1]
+        console.log(removedTASK[2])
+
+        element.parentElement.classList.add("opacity-0")
+        const markedCompleted = TASKS.map(t => {
+            if (t['id'] === removedTASK[1]) {
+                return { ...t, isCompleted: false }
+            } else {
+                return t
+            }
+        })
+        setTASKS(markedCompleted)
+
+        removedTASK[2].style.transition = "all 0.3s ease"
+
+
+        setTimeout(() => {
+            removedTASK[2].style.opacity = "1"
+            removedTASK[2].style.padding = ""
+            removedTASK[2].style.maxHeight = ""
+        }, 100)
+
+        // uncheck the task
+        removedTASK[2].children[0].children[0].checked = false
+
+
+        setTimeout(() => {
+        }, 2000)
+    }
+
+
+
     return (
         <>
             <Header setOverlay={setOverlay} />
@@ -189,8 +253,8 @@ const Home = () => {
                     { }
 
 
-                    {(locationName === "Home") ? <DisplayTasks openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} /> :
-                        <DisplayTasks locationName={locationName.split("-").join(" ")} openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} />}
+                    {(locationName === "Home") ? <DisplayTasks taskCompletedPopup={taskCompletedPopup} taskCompleted={taskCompleted} openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} /> :
+                        <DisplayTasks taskCompletedPopup={taskCompletedPopup} taskCompleted={taskCompleted} locationName={locationName.split("-").join(" ")} openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} />}
                 </main>
 
             </section>
@@ -201,45 +265,9 @@ const Home = () => {
 
             {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
             {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editTask={editTask} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
+            <TaskDone removedTASK={removedTASK} setTASKS={setTASKS} setTaskCompletedPopup={setTaskCompletedPopup} taskCompletedPopup={taskCompletedPopup} undoFunc={undoFunc} />
         </>
     )
 };
 
 export default Home;
-
-
-
-
-// if (locationName === "Home") {
-//     return (
-//         <>
-//             <Header setOverlay={setOverlay} />
-//             <section className="grid grid-cols-5 grad">
-//                 <Nav setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
-//                 <main className="acrd-list mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-1 w-full h-auto">
-//                     <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
-//                         Task List
-//                     </p>
-//                     <DisplayTasks openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} />
-//                 </main>
-
-//             </section>
-//             {overlayActive && <AddTaskPopup customProjects={customProjects} closePopup={() => setOverlayActive(false)} />}
-//             {overlayActive && <div onClick={setOverlay} className="fixed top-0 bottom-0 left-0 right-0 z-10 bg-black/25" id="overlay"></div>}
-
-//             {overlayForRemove && <RemoveTaskPopup setOverlayForRemove={setOverlayForRemove} />}
-
-//             {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
-//             {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
-//         </>
-//     );
-// } else if (customProjects.includes(locationName.split("-").join(" "))) {
-//     return (
-//         <DisplayTasks locationName={locationName.split("-").join(" ")} openEditTaskPopup={openEditTaskPopup} removeTask={removeTask} changePriorty={changePriorty} tasks={tasks} />
-//     )
-// }
-// else {
-//     return (
-//         < NotFound />
-//     )
-// }

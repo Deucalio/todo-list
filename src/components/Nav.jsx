@@ -156,6 +156,26 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
         </div>
       </Link>
 
+
+      <div className="flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          className="w-8 text-slate-800/75"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4.5 12.75l6 6 9-13.5"
+          />
+        </svg>
+
+        <p className="text-lg text-slate-700">Completed tasks</p>
+      </div>
+
       <div
         onClick={handleChange}
         className="relative my-5  flex cursor-pointer flex-wrap items-center pl-1  hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4"

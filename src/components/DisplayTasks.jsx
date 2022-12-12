@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import AddTaskPopup from "./AddTaskPopup"
 
 const DisplayTask = ({
+  taskCompletedPopup,
+  taskCompleted,
   openEditTaskPopup,
   removeTask,
   changePriorty,
@@ -9,9 +11,6 @@ const DisplayTask = ({
   description,
   dueDate,
   priorty,
-  project,
-  isCompleted,
-  isImportant,
   id,
 }) => {
   dueDate = dueDate.split("-")
@@ -80,11 +79,12 @@ const DisplayTask = ({
     priortyTooltip.classList.add("hidden")
   }
 
+
   return (
     <>
-      <div className={`container-item max-h-full w-[91%] md:mx-auto rounded-md border-2 border-l-[10px]  ${priorty}  bg-indigo-100 py-2 px-3  transition-all duration-[600ms] md:w-11/12`}>
+      <div className={`container-item max-h-full w-[91%] md:w-11/12 md:mx-auto rounded-md border-2 border-l-[10px]  ${priorty}  bg-indigo-100 py-2 px-3  transition-all duration-500 ease-in-out `}>
         <button className="flex w-full cursor-default flex-row items-center justify-between sm:gap-1  sm:px-3 py-1">
-          <input
+          <input disabled={taskCompletedPopup ? true : false} onChange={e => taskCompleted(e.target, id)}
             className="inline border-2 border-black focus:ring-0 h-5 w-5"
             type="checkbox"
             id=""
@@ -218,9 +218,8 @@ const DisplayTasks = (props) => {
   const changePriorty = props.changePriorty
   const removeTask = props.removeTask
   const openEditTaskPopup = props.openEditTaskPopup
-  const locationName = props.locationName
-
-  const [propsTasks, setPropsTasks] = useState(tasks);
+  const taskCompleted = props.taskCompleted
+  const taskCompletedPopup = props.taskCompletedPopup
 
 
 
@@ -228,6 +227,8 @@ const DisplayTasks = (props) => {
     <>
       {tasks.map((t, i) => (
         <DisplayTask
+          taskCompletedPopup={taskCompletedPopup}
+          taskCompleted={taskCompleted}
           key={t.id}
           openEditTaskPopup={openEditTaskPopup}
           removeTask={removeTask}

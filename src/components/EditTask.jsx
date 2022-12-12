@@ -16,8 +16,8 @@ const EditTask = ({ customProjects, setOverlayEditTask, editedTaskId, tasks, edi
         dueDate: "",
         priorty: "",
         project: "",
-        isCompleted: false,
-        id: null
+        id: null,
+        isCompleted: false
     })
 
 
@@ -30,7 +30,9 @@ const EditTask = ({ customProjects, setOverlayEditTask, editedTaskId, tasks, edi
                 description: taskBeingEdited.description,
                 dueDate: taskBeingEdited.dueDate,
                 priorty: taskBeingEdited.priorty,
-                project: taskBeingEdited.project
+                project: taskBeingEdited.project,
+                id: null,
+                isCompleted: false
             })
         }
     }, [req])
@@ -146,7 +148,7 @@ const EditTask = ({ customProjects, setOverlayEditTask, editedTaskId, tasks, edi
                     <ul className="modal-body mt-5 flex flex-col gap-4 text-lg">
                         <li>
                             <label htmlFor="">Title:</label>
-                            <input ref={titleInput} name="title" type="text" onChange={handleChange} value={formData.title}
+                            <input maxLength="15" ref={titleInput} name="title" type="text" onChange={handleChange} value={formData.title}
                                 className="h-9 w-full rounded-md border-2 border-indigo-600 border-opacity-50 bg-indigo-100 px-2 text-lg shadow-sm outline-indigo-400 " />
                             <div className="relative hidden ">
                                 <span className="text-lg text-[red] block">Title is required</span>
