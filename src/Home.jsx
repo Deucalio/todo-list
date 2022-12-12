@@ -232,10 +232,6 @@ const Home = () => {
 
         // uncheck the task
         removedTASK[2].children[0].children[0].checked = false
-
-
-        setTimeout(() => {
-        }, 2000)
     }
 
 

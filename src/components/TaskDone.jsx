@@ -9,11 +9,11 @@ const TaskDone = ({ undoFunc, taskCompletedPopup, setTaskCompletedPopup, removed
         if (taskCompletedPopup) {
             popup.current.classList.remove("opacity-0")
             var settask = setTimeout(() => {
-                setTASKS(removedTASK[0])
             }, 150)
             var disablePopup =
                 setTimeout(() => {
                     setTaskCompletedPopup(false)
+                    setTASKS(removedTASK[0])
                 }, 5000)
         }
         return () => {
