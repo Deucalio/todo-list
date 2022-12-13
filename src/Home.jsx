@@ -1,3 +1,5 @@
+// ADD FIREBASE !
+
 import Header from "./components/Header";
 import Nav from "./components/Nav";
 import { useEffect, useState } from "react";
@@ -9,6 +11,8 @@ import EditTask from "./components/EditTask";
 import { useLocation } from "react-router-dom"
 import NotFound from "./components/NotFound";
 import TaskDone from "./components/TaskDone";
+import CompletedTasks from "./components/CompletedTasks";
+
 
 const initialData = [
     {
@@ -82,9 +86,6 @@ const Home = () => {
     const [editedTaskId, setEditedTaskId] = useState(null)
 
 
-
-
-
     const setOverlay = () => {
         setOverlayActive(!overlayActive)
     }
@@ -100,12 +101,13 @@ const Home = () => {
     }
 
 
-    if ((!customProjects.includes(locationName.split("-").join(" ")) && locationName !== "Home")) {
+    // if ((!customProjects.includes(locationName.split("-").join(" "))) && (locationName !== "Home")) {
+    //     return (
+    //         <NotFound />
+    //     )
+    // }
 
-        return (
-            <NotFound />
-        )
-    }
+
 
 
     // CRUD functions
@@ -234,8 +236,6 @@ const Home = () => {
         removedTASK[2].children[0].children[0].checked = false
     }
 
-
-
     return (
         <>
             <Header setOverlay={setOverlay} />
@@ -261,7 +261,9 @@ const Home = () => {
 
             {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
             {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editTask={editTask} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
-            <TaskDone removedTASK={removedTASK} setTASKS={setTASKS} setTaskCompletedPopup={setTaskCompletedPopup} taskCompletedPopup={taskCompletedPopup} undoFunc={undoFunc} />
+            <>
+                {/* <TaskDone removedTASK={removedTASK} setTASKS={setTASKS} setTaskCompletedPopup={setTaskCompletedPopup} taskCompletedPopup={taskCompletedPopup} undoFunc={undoFunc} /> */}
+            </>
         </>
     )
 };

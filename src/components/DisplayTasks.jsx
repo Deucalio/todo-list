@@ -222,7 +222,6 @@ const DisplayTasks = (props) => {
   const taskCompletedPopup = props.taskCompletedPopup
 
 
-
   return (
     <>
       {tasks.map((t, i) => (

@@ -45,6 +45,7 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
   const navigate = useNavigate()
   let params = useParams()
   const homeLink = useRef(null)
+  const CompletedTasksElement = useRef(null)
 
 
 
@@ -59,14 +60,28 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
 
     if (params.customProject === undefined) {
       homeLink.current.classList.add("font-semibold")
+      CompletedTasksElement.current.classList.remove("font-semibold")
+
 
       customProjectDivs.map(d => {
         if (d.classList.value.includes("font-semibold")) {
           d.classList.remove("font-semibold")
+
         }
       })
-    } else {
+    } else if (params.customProject === "Completed-tasks") {
+      CompletedTasksElement.current.classList.add("font-semibold")
+      homeLink.current.classList.remove("font-semibold")
+      const customProjectLinks = [...customProjectParentElement.current.children]
+      for (let i = 0; i < customProjectLinks.length; i++) {
+        if (customProjectLinks[i].classList.value.includes("font-semibold")) {
+          customProjectLinks[i].classList.remove("font-semibold")
+        }
+      }
+    }
+    else {
       customProjectDivs.map(d => {
+        CompletedTasksElement.current.classList.remove("font-semibold")
         if (d.textContent === params.customProject.split("-").join(" ")) {
           d.classList.add("font-semibold")
         }
@@ -112,7 +127,12 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
   };
 
   const addFont = (homeElement) => {
+    CompletedTasksElement.current.classList.remove("font-semibold")
     homeElement.classList.add("font-semibold")
+  }
+
+  const addStyle = (ImportantElement) => {
+    navigate("/Completed-tasks")
   }
   return (
     <nav onClick={setOverlay} className="grad absolute overflow-y-scroll z-20 w-60 bg-[#E0E0E0] shadow-xl md:static md:col-span-1 md:h-auto md:w-auto active">
@@ -137,7 +157,7 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
 
       </div>
       <Link to="/">
-        <div className="my-5 flex cursor-pointer flex-wrap items-center pl-1 hover:font-bold sm:gap-1  lg:w-48 lg:mx-auto lg:gap-4">
+        <div className="my-5 flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold sm:gap-1  lg:w-48 lg:mx-auto lg:gap-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -157,23 +177,23 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
       </Link>
 
 
-      <div className="flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4">
+      <div onClick={e => addStyle(e.target)} className="flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          className="w-8 text-slate-800/75"
+          className="w-8 text-slate-800/75 pointer-events-none"
         >
-          <path
+          <path className="pointer-events-none"
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M4.5 12.75l6 6 9-13.5"
           />
         </svg>
 
-        <p className="text-lg text-slate-700">Completed tasks</p>
+        <p ref={CompletedTasksElement} className="text-lg text-slate-700">Completed tasks</p>
       </div>
 
       <div
