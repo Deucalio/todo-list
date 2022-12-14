@@ -23,7 +23,7 @@ const TaskDone = ({ undoFunc, taskCompletedPopup, setTaskCompletedPopup, removed
 
 
     return (
-        <div ref={popup} className="bg-sky-200 shadow-md transition-all duration-500 opacity-0  rounded-md flex gap-6 absolute inset-0 h-10 px-4 items-center w-64 top-auto bottom-14 mx-auto z-[99]">
+        <div ref={popup} className="bg-sky-200 shadow-md transition-all duration-500 opacity-0   rounded-md flex gap-6 absolute inset-0 h-10 px-4 items-center w-64 top-auto bottom-14 mx-auto z-10">
             <p className="text-lg text-gray-800">1 task completed</p>
             <button onClick={e => undoFunc(e.target)} className="text-lg hover:bg-orange-200 hover:bg-opacity-50 px-1 font-bold text-orange-600 rounded-lg">Undo</button>
         </div>

@@ -33,8 +33,8 @@ const RemoveTaskPopup = ({ setTASKS, TASKS, setOverlayForRemove, idForTaskBeingR
     return (
         <>
             <div id="deleteTask"
-                ref={popup} className={` scale-0 pointer-events-none z-50 modal fixed top-1/2 left-1/2 mt-2 h-1/2 w-11/12 lg:w-[35rem] -translate-x-1/2 -translate-y-1/2 overflow-x-hidden overflow-y-hidden rounded-md border-2 border-black/30 bg-indigo-50 p-4 shadow-md md:w-2/4  transition-all`}>
-                <div className="flex flex-col gap-4 items-center lg:py-14 lg:px-6">
+                ref={popup} className={` scale-0 pointer-events-none z-50 modal fixed top-1/2 left-1/2 mt-2 lg:h-1/2 h-1/2 sm:h-2/3 w-11/12 lg:w-[35rem] -translate-x-1/2 -translate-y-1/2 overflow-x-hidden overflow-y-hidden rounded-md border-2 border-black/30 bg-indigo-50 p-4 shadow-md md:w-2/4  transition-all`}>
+                <div className="flex flex-col gap-4 items-center  lg:px-6">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-32 h-32 text-amber-500">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                     </svg>

@@ -109,7 +109,7 @@ const AddTaskPopup = ({ addTask, closePopup, customProjects }) => {
     return (
         <div id="modalAddTask"
             ref={modal}
-            className="scale-0  modal fixed top-1/2 left-1/2 z-20 mt-2 h-5/6 w-11/12 -translate-x-1/2 -translate-y-1/2 overflow-x-hidden overflow-y-scroll rounded-md border-2 border-black/30 bg-indigo-50 p-4 shadow-md md:w-2/3  transition-all duration-200">
+            className="scale-0 z-50 modal fixed top-1/2 left-1/2 mt-2 h-5/6 w-11/12 -translate-x-1/2 -translate-y-1/2 overflow-x-hidden overflow-y-scroll rounded-md border-2 border-black/30 bg-indigo-50 p-4 shadow-md md:w-2/3  transition-all duration-200">
             <div className="modal-header flex flex-wrap justify-between border-b-2 border-b-black text-xl">
                 <div className="">Add a task</div>
                 <button onClick={closePopup} data-close-button className="-translate-y-1 text-4xl">&times;</button>
