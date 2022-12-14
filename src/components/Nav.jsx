@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { useEffect, useRef } from "react"
 
-const CreateCustomProject = ({ removeAllTasks, name, setCustomProjects, customProjects, handleNavigate }) => {
+const CreateCustomProject = ({ taskCompletedPopup, removeAllTasks, name, setCustomProjects, customProjects, handleNavigate }) => {
   const locationName = (name.trim()).split(" ").join("-")
   const navigate = useNavigate()
 
@@ -20,7 +20,8 @@ const CreateCustomProject = ({ removeAllTasks, name, setCustomProjects, customPr
   return (
     <div className="relative mb-3 pl-7 flex gap-2 mx-auto  flex-wrap items-center  w-48 lg:w-48 lg:mx-auto lg:gap-4">
       <div className="w-3 h-3 rounded-full bg-slate-400 lg:translate-x-2"></div>
-      <p onClick={e => handleNavigate(e)} className="text-md cursor-pointer text-slate-900 hover:font-semibold">
+
+      <p onClick={e => handleNavigate(e)} className={`text-md cursor-pointer text-slate-900 hover:font-semibold  ${taskCompletedPopup ? ["text-zinc-500", "pointer-events-none"].join(" ") : ["text-slate-700", "pointer-events-auto"].join(" ")}   `}>
         {name}
       </p>
       <svg onClick={removeProject}
@@ -41,7 +42,7 @@ const CreateCustomProject = ({ removeAllTasks, name, setCustomProjects, customPr
   )
 }
 
-const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProjects, setCustomProjects }) => {
+const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProjects, setCustomProjects, taskCompletedPopup }) => {
   const navigate = useNavigate()
   let params = useParams()
   const homeLink = useRef(null)
@@ -137,7 +138,7 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
   return (
     <nav onClick={setOverlay} className="grad absolute overflow-y-scroll z-20 w-60 bg-[#E0E0E0] shadow-xl md:static md:col-span-1 md:h-auto md:w-auto active">
       <div className="flex flex-col items-center justify-evenly pb-7 md:flex-row">
-        <p className="px-2 py-2 text-left text-4xl tracking-normal text-slate-600">
+        <p className={`px-2 py-2 text-left text-4xl tracking-normal pointer-events-none text-slate-600 ${taskCompletedPopup ? ["text-zinc-500", "pointer-events-none"].join(" ") : ["text-slate-600", "pointer-events-auto"].join(" ")} `}>
           <Link to="/">
             To-Do
           </Link>
@@ -156,28 +157,26 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
 
 
       </div>
-      <Link to="/">
-        <div className="my-5 flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold sm:gap-1  lg:w-48 lg:mx-auto lg:gap-4">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-8 text-slate-800/75"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-            />
-          </svg>
-          <p ref={homeLink} className="text-lg text-slate-700">Home</p>
-        </div>
-      </Link>
+      <div onClick={() => navigate("/")} className={`my-5 flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold sm:gap-1  lg:w-48 lg:mx-auto lg:gap-4   ${taskCompletedPopup ? ["text-zinc-500", "pointer-events-none"].join(" ") : ["text-slate-700", "pointer-events-auto"].join(" ")} `}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          className="w-8 text-slate-800/75"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+          />
+        </svg>
+        <p ref={homeLink} className="text-lg">Home</p>
+      </div>
 
 
-      <div onClick={e => addStyle(e.target)} className="flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4">
+      <div onClick={e => addStyle(e.target)} className={`flex cursor-pointer flex-wrap items-center pl-1 hover:font-semibold  lg:w-48 lg:mx-auto lg:gap-4   ${taskCompletedPopup ? ["text-zinc-500", "pointer-events-none"].join(" ") : ["text-slate-700", "pointer-events-auto"].join(" ")}  `}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -193,7 +192,7 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
           />
         </svg>
 
-        <p ref={CompletedTasksElement} className="text-lg text-slate-700">Completed tasks</p>
+        <p ref={CompletedTasksElement} className="text-lg ">Completed tasks</p>
       </div>
 
       <div
@@ -236,8 +235,7 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
 
       <div ref={customProjectParentElement} className={`customProj transition-all -mt-5 opacity-0 pointer-events-none pb-12`}>
 
-        {customProjects.map((n, i) => <CreateCustomProject key={i} removeAllTasks={removeAllTasks} handleNavigate={handleNavigate} customProjects={customProjects} setCustomProjects={setCustomProjects} name={n} />)}
-
+        {customProjects.map((n, i) => <CreateCustomProject taskCompletedPopup={taskCompletedPopup} key={i} removeAllTasks={removeAllTasks} handleNavigate={handleNavigate} customProjects={customProjects} setCustomProjects={setCustomProjects} name={n} />)}
 
 
         <div onClick={openCustomProjectPopup} className=" mb-3 pl-11 flex gap-2 mx-auto cursor-pointer flex-wrap items-center hover:font-semibold w-52 lg:w-48 lg:mx-auto lg:gap-4">
@@ -259,7 +257,7 @@ const Nav = ({ removeAllTasks, setOverlay, openCustomProjectPopup, customProject
           <p className="text-md text-slate-900">New Project</p>
         </div>
       </div>
-    </nav>
+    </nav >
   );
 };
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import AddTaskPopup from "./AddTaskPopup"
 
 const DisplayTask = ({
+  locationName,
   taskCompletedPopup,
   taskCompleted,
   openEditTaskPopup,
@@ -13,6 +14,9 @@ const DisplayTask = ({
   priorty,
   id,
 }) => {
+  console.log(locationName)
+
+
   dueDate = dueDate.split("-")
   dueDate = dueDate[2] + "/" + dueDate[1] + "/" + dueDate[0]
   const [modalActive, setModalActive] = useState(false)
@@ -82,20 +86,26 @@ const DisplayTask = ({
 
   return (
     <>
-      <div className={`container-item max-h-full w-[91%] md:w-11/12 md:mx-auto rounded-md border-2 border-l-[10px]  ${priorty}  bg-indigo-100 py-2 px-3  transition-all duration-500 ease-in-out `}>
+      <div className={`container-item max-h-full w-[91%] md:w-11/12 md:mx-auto rounded-md border-2 border-l-[10px]   ${(locationName === "Completed-tasks" ? ["border-gray-600", "border-l-zinc-400", "text-gray-600", "line-through"].join(" ") : priorty)}   bg-indigo-100 py-2 px-3  transition-all duration-500 ease-in-out `}>
         <button className="flex w-full cursor-default flex-row items-center justify-between sm:gap-1  sm:px-3 py-1">
-          <input disabled={taskCompletedPopup ? true : false} onChange={e => taskCompleted(e.target, id)}
+
+          {locationName === "Completed-tasks" ? <input disabled="true"
+            className="inline border-2 border-black focus:ring-0 h-5 w-5 pointer-events-none text-slate-600"
+            type="checkbox"
+          /> : <input disabled={taskCompletedPopup ? true : false} onChange={e => taskCompleted(e.target, id)}
             className="inline border-2 border-black focus:ring-0 h-5 w-5"
             type="checkbox"
             id=""
             name=""
             value=""
-          />
+          />}
+
+
           <div
             onClick={openAccordion}
-            className=" accordion-btn mr-2 flex w-full cursor-pointer flex-wrap justify-between border-4"
+            className=" accordion-btn mr-2  flex w-full cursor-pointer flex-wrap justify-between border-4"
           >
-            <p className="pointer-events-none mt-[2px] max-h-full w-fit cursor-pointer text-left text-md sm:text-lg transition-all md:text-xl">
+            <p className="pointer-events-none  mt-[2px] max-h-full w-fit cursor-pointer text-left text-md sm:text-lg transition-all md:text-xl">
               {title}
             </p>
 
@@ -115,7 +125,7 @@ const DisplayTask = ({
             </svg>
           </div>
 
-          <div className="relative">
+          <div className={`relative ${locationName === "Completed-tasks" ? ["pointer-events-none", "text-zinc-400"].join(" ") : ""}`}>
             <svg onClick={e => openEditTaskPopup(e, id)} onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
               className=" toolTipEnable mr-3 w-5 sm:w-10 sm:p-2 rounded-md cursor-pointer hover:bg-indigo-200"
@@ -138,7 +148,7 @@ const DisplayTask = ({
             </span>
           </div>
 
-          <div className="relative">
+          <div className={`relative`}>
             <svg onClick={e => removeTask(e.target, id)} onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
               className="toolTipEnable mr-3 w-5 sm:w-10 sm:p-2 rounded-md cursor-pointer hover:bg-indigo-200"
@@ -162,7 +172,7 @@ const DisplayTask = ({
             </span>
           </div>
 
-          <div className="relative">
+          <div className={`relative ${locationName === "Completed-tasks" ? ["pointer-events-none", "text-zinc-400"].join(" ") : ""}`}>
             <svg onClick={showPriortyTooltip} onPointerEnter={displayTooltip} onPointerLeave={hideTooltip}
               xmlns="http://www.w3.org/2000/svg"
               className="toolTipEnable w-10 p-2 rounded-md cursor-pointer hover:bg-indigo-200"
@@ -220,12 +230,39 @@ const DisplayTasks = (props) => {
   const openEditTaskPopup = props.openEditTaskPopup
   const taskCompleted = props.taskCompleted
   const taskCompletedPopup = props.taskCompletedPopup
+  const locationName = props.locationName
+
+  if (locationName === "Completed tasks") {
+    return (
+      <>
+        {
+          tasks.map((t, i) => (
+            <DisplayTask
+              locationName={"Completed-tasks"}
+              taskCompletedPopup={taskCompletedPopup}
+              taskCompleted={taskCompleted}
+              key={t.id}
+              openEditTaskPopup={openEditTaskPopup}
+              removeTask={removeTask}
+              changePriorty={changePriorty}
+              title={t.title}
+              description={t.description}
+              dueDate={t.dueDate}
+              priorty={t.priorty}
+              id={t.id}
+            />
+          ))}
+      </>
+    )
+  }
+
 
 
   return (
     <>
       {tasks.map((t, i) => (
         <DisplayTask
+          locationName={false}
           taskCompletedPopup={taskCompletedPopup}
           taskCompleted={taskCompleted}
           key={t.id}

@@ -71,9 +71,16 @@ const Home = () => {
 
 
     useEffect(() => {
-        const filteredTasks = TASKS.filter(task => (task.project === locationName.split("-").join(" ") &&
-            task.isCompleted !== true))
-        setTasks(filteredTasks)
+        if (url === "Completed-tasks") {
+            const filteredTasks = TASKS.filter(task => task.isCompleted === true)
+            setTasks(filteredTasks)
+        } else {
+            const filteredTasks = TASKS.filter(task => (task.project === locationName.split("-").join(" ") &&
+                task.isCompleted !== true))
+            setTasks(filteredTasks)
+        }
+
+
     }, [url, TASKS])
 
     const [overlayActive, setOverlayActive] = useState(false)
@@ -240,7 +247,7 @@ const Home = () => {
         <>
             <Header setOverlay={setOverlay} />
             <section className="grid grid-cols-5 grad">
-                <Nav removeAllTasks={removeAllTasks} setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
+                <Nav taskCompletedPopup={taskCompletedPopup} removeAllTasks={removeAllTasks} setCustomProjects={setCustomProjects} customProjects={customProjects} openCustomProjectPopup={openCustomProjectPopup} setOverlay={() => setOverlayActive(false)} />
                 <main className="acrd-list mx-auto pt-5 flex flex-col gap-2 p-2 col-span-5 md:col-span-4 px-1 w-full h-auto">
                     <p className="container-item  w-full md:w-11/12 text-3xl text-slate-600 font-semibold tracking-normal text-left">
                         Task List
@@ -262,7 +269,7 @@ const Home = () => {
             {displayCustomProject && <AddProject customProjects={customProjects} setCustomProjects={setCustomProjects} setDisplayCustomProject={setDisplayCustomProject} />}
             {overlayEditTask && <EditTask customProjects={customProjects} tasks={tasks} setTasks={setTasks} editTask={editTask} editedTaskId={editedTaskId} setOverlayEditTask={setOverlayEditTask} />}
             <>
-                {/* <TaskDone removedTASK={removedTASK} setTASKS={setTASKS} setTaskCompletedPopup={setTaskCompletedPopup} taskCompletedPopup={taskCompletedPopup} undoFunc={undoFunc} /> */}
+                <TaskDone removedTASK={removedTASK} setTASKS={setTASKS} setTaskCompletedPopup={setTaskCompletedPopup} taskCompletedPopup={taskCompletedPopup} undoFunc={undoFunc} />
             </>
         </>
     )
