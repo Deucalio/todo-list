@@ -16,8 +16,8 @@ import CompletedTasks from "./components/CompletedTasks";
 
 const initialData = [
     {
-        title: `Accordion #1`,
-        description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat em ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat em ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
+        title: `Example #1`,
+        description: `I made this todo-list app so I could familarize myself with states and their management in react, tasks aren't saved in the localstorage or any database`,
         dueDate: `2022-12-09`,
         priorty: "High",
         project: "Home",
@@ -25,8 +25,8 @@ const initialData = [
         isCompleted: false
     },
     {
-        title: `Accordion #2 asdfa`,
-        description: `Lorem . quaerat`,
+        title: `Example #2`,
+        description: `Try changing my priorty and see how my color changes`,
         dueDate: `2022-12-31`,
         priorty: "Medium",
         project: "Home",
@@ -34,8 +34,8 @@ const initialData = [
         isCompleted: false
     },
     {
-        title: `Accordion #3`,
-        description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
+        title: `Example #3`,
+        description: `Try messing with buttons, add, edit and delete. I used scale and opacity properties for styling and to make animation possible.`,
         dueDate: "2023-03-16",
         priorty: "Low",
         project: "Home",
@@ -43,8 +43,8 @@ const initialData = [
         isCompleted: false
     },
     {
-        title: `Accordion #3`,
-        description: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur, consequatur repellendus.Sitipsa aperiam, repellat minima corporis facere nisi quaerat`,
+        title: `I belong in custom Project`,
+        description: `You can click on edit icon and change my project to move me.`,
         dueDate: "2023-03-16",
         priorty: "Low",
         project: "Custom Project",

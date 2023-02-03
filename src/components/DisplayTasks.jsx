@@ -87,7 +87,7 @@ const DisplayTask = ({
   return (
     <>
       <div className={`container-item max-h-full w-[91%] md:w-11/12 md:mx-auto rounded-md border-2 border-l-[10px]   ${(locationName === "Completed-tasks" ? ["border-gray-600", "border-l-zinc-400", "text-gray-600", "line-through"].join(" ") : priorty)}   bg-indigo-100 py-2 px-3  transition-all duration-500 ease-in-out `}>
-        <button className="flex w-full cursor-default flex-row items-center justify-between sm:gap-1  sm:px-3 py-1">
+        <button tabIndex="-1" className="flex w-full cursor-default flex-row items-center justify-between sm:gap-1  sm:px-3 py-1">
 
           {locationName === "Completed-tasks" ? <input disabled="true"
             className="inline border-2 border-black focus:ring-0 h-5 w-5 pointer-events-none text-slate-600"
