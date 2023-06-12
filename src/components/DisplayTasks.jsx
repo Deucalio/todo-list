@@ -103,7 +103,7 @@ const DisplayTask = ({
 
           <div
             onClick={openAccordion}
-            className=" accordion-btn mr-2  flex w-full cursor-pointer flex-wrap justify-between border-4"
+            className=" accordion-btn mr-2  flex w-full cursor-pointer flex-wrap justify-between"
           >
             <p className="pointer-events-none  mt-[2px] max-h-full w-fit cursor-pointer text-left text-md sm:text-lg transition-all md:text-xl">
               {title}
